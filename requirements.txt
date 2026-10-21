@@ -1,0 +1,10 @@
+# Pin exact versions once the smoke test works (run `pip freeze | grep -E "pandas|numpy|..."` in Colab).
+pandas
+numpy
+pyarrow
+matplotlib
+statsforecast
+mlforecast
+lightgbm
+neuralforecast
+chronos-forecasting>=2.0
