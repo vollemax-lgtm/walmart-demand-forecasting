@@ -12,7 +12,7 @@ Format: date · who · what was done · decisions · outputs · next step.
 **Early results (sample only, not the official evaluation):**
 - Chronos-2 beats "same weekday last week" by **21–29%** in mean absolute error on every window.
 - Adding prices and holidays made **almost no difference** (within ±1–2 percentage points). Worth re-checking on the full data before drawing conclusions.
-- The median forecast sits **well below average demand** for intermittent products (e.g. ~2 units/day for a product averaging ~7 with big spikes). The median is the right point forecast for absolute error, but it under-forecasts totals, which matters for inventory. This is exactly what the calibration step and the quantile-based safety stock should address.
+- The median forecast sits **well below average demand** for intermittent products (e.g. a fast seller forecast at ~2 units/day while its actual sales regularly hit 10–40). The median is the right point forecast for absolute error, but it under-forecasts totals, which matters for inventory. This is exactly what the calibration step and the quantile-based safety stock should address.
 **Process note:** Colab's "Save a copy in GitHub" first saved to the wrong repo (F1-explainer). New routine: download the notebook into *Project Code*; Claude commits it to this repo.
 **Next:** run with `SAMPLE = False` for all of California (~1.5 h on T4).
 
