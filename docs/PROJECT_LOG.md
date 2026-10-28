@@ -6,6 +6,16 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-10-28 · Max (with Claude) · Notebook 04a smoke test: Chronos-2 works on the T4
+**What:** Ran `04a_chronos2.ipynb` with `SAMPLE = True` (100 products) on a free Colab T4 GPU. The real Chronos-2 model downloaded (478 MB) and ran all 14 forecasts (2 runs × 7 windows) with no errors.
+**Timing:** zero-shot ~1 s per window, with covariates ~5.7 s per window for 100 products. Estimate for all 12,196 products: ~15 min (zero-shot) + ~80 min (covariates) ≈ 1.5 hours of T4 time.
+**Early results (sample only, not the official evaluation):**
+- Chronos-2 beats "same weekday last week" by **21–29%** in mean absolute error on every window.
+- Adding prices and holidays made **almost no difference** (within ±1–2 percentage points). Worth re-checking on the full data before drawing conclusions.
+- The median forecast sits **well below average demand** for intermittent products (e.g. ~2 units/day for a product averaging ~7 with big spikes). The median is the right point forecast for absolute error, but it under-forecasts totals, which matters for inventory. This is exactly what the calibration step and the quantile-based safety stock should address.
+**Process note:** Colab's "Save a copy in GitHub" first saved to the wrong repo (F1-explainer). New routine: download the notebook into *Project Code*; Claude commits it to this repo.
+**Next:** run with `SAMPLE = False` for all of California (~1.5 h on T4).
+
 ## 2026-10-28 · Max (with Claude) · Notebook 04a: Chronos-2 written
 **What:** Wrote `notebooks/04a_chronos2.ipynb`, which forecasts every California series with Amazon's Chronos-2 in two modes: zero-shot (sales history only) and with known-future covariates (price, discount ratio, SNAP, events, Christmas).
 **Decisions:**
