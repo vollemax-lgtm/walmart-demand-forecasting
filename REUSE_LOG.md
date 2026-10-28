@@ -6,6 +6,7 @@ The course requires us to declare reused code, pretrained models, and code writt
 | Date | Notebook / file | What was reused or generated | Source (link, model, or tool) | What we changed or contributed | Added by |
 |---|---|---|---|---|---|
 | 2026-10-21 | `01_data_prep.ipynb` | Full notebook code | Claude (Anthropic), from our team's specification | Scope (California), cleaning rules, window design, sales-speed definition; review and run | Max Volle |
+| 2026-10-28 | `04a_chronos2.ipynb` | Full notebook code | Claude (Anthropic), from our team's specification; Chronos-2 interface from the `chronos-forecasting` 2.3.2 package | Choice of runs (zero-shot vs. covariates), covariate list, window design, median as point forecast; review and run | Max |
 | | | Chronos-2 pretrained model | https://huggingface.co/amazon/chronos-2 | Used zero-shot, no fine-tuning | |
 | | | M5 dataset | https://www.kaggle.com/competitions/m5-forecasting-accuracy | Filtered to California | |
 

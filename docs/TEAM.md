@@ -39,7 +39,10 @@
 ## Shared conventions
 - Data: `ca_sales.parquet` (`unique_id, ds, y` + price/calendar columns), `ca_static.parquet`, `windows.json`
 - Windows: val_1 Feb 29 – Mar 27, val_2 Mar 28 – Apr 24, **test Apr 25 – May 22, 2016** (never tune on test)
-- Forecast files: `data/forecasts/<model>_<window>.parquet` with columns `unique_id, ds, model, window, forecast`
+- Backtest windows (training data for calibration and the hybrid model): the four 28-day blocks right before val_1 —
+  bt_4 Nov 9 – Dec 6 2015, bt_3 Dec 7 – Jan 3, bt_2 Jan 4 – Jan 31, bt_1 Feb 1 – Feb 28, 2016.
+  Build them in code as `val_1 start − 28×k days` so every notebook matches.
+- Forecast files: `data/forecasts/<model>_<window>.parquet` with columns `unique_id, ds, model, window, forecast` (extra columns such as quantiles `q0.1…q0.9` are fine). Smoke-test runs go to `data/forecasts_sample/`.
 
 ## Key dates
 - ~~Wed Oct 28: clean data in Drive~~ ✅ done Oct 21
