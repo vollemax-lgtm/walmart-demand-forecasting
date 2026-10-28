@@ -21,7 +21,8 @@ Run the notebooks in order in Google Colab. Each one reads from and writes to th
 | 01 | `notebooks/01_data_prep.ipynb` | Clean California data, windows, sales-speed groups, EDA charts | CPU, ~10 min |
 | 02 | `notebooks/02_baseline_lightgbm.ipynb` | Seasonal naive + winner-style LightGBM (two runs) + hybrid residual model | CPU |
 | 03 | `notebooks/03_deepar.ipynb` | DeepAR | GPU |
-| 04 | `notebooks/04_foundation_models.ipynb` | Chronos-2 and TimesFM-3, zero-shot and with covariates | GPU |
+| 04a | `notebooks/04a_chronos2.ipynb` | Chronos-2 (Amazon), zero-shot and with covariates | GPU (T4) |
+| 04b | `notebooks/04b_timesfm3.ipynb` | TimesFM-3 (Google), zero-shot and with covariates | GPU (T4) |
 | 05 | `notebooks/05_evaluation.ipynb` | Scoring, calibration, hybrid + ensemble, safety-stock dollars | CPU |
 
 Library versions are pinned in `requirements.txt`. Random seeds are fixed at 42.
@@ -33,6 +34,12 @@ Library versions are pinned in `requirements.txt`. Random seeds are fixed at 42.
 
 ## Results
 _To be added._
+
+## Pretrained models (not built by us)
+- **Chronos-2** (Amazon): `amazon/chronos-2` on Hugging Face, via `chronos-forecasting` 2.3.2 (Apache 2.0)
+- **TimesFM-3** (Google): `google/timesfm-3.0-pytorch` on Hugging Face, via `timesfm` 3.0.2 (code Apache 2.0; weights under Google's TimesFM non-commercial license)
+
+Both are downloaded at run time and used as-is (zero-shot) or with our post-processing. We did not train or modify them.
 
 ## Code reuse and LLM use
 See [`REUSE_LOG.md`](REUSE_LOG.md).

@@ -6,6 +6,17 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-10-28 · Max (with Claude) · Notebook 04b: TimesFM-3 written
+**What:** Wrote `notebooks/04b_timesfm3.ipynb`: Google's TimesFM-3 with the same two runs (zero-shot, with covariates) and the same 7 windows as 04a, so the two foundation models compare like for like.
+**How the models get into the project:** neither model is built by us. Both are pretrained by their companies, downloaded from Hugging Face at run time, and used as-is. Our code handles the data, windows, inputs, saving and checks. Both are listed in `REUSE_LOG.md` and the README.
+**Decisions:**
+- Pinned `timesfm==3.0.2` (import `timesfm3.TimesFM3Forecaster`). Interface checked against the package source.
+- Unlike Chronos-2, TimesFM-3 takes one array per product, and its covariates are single arrays covering history + the 28 future days. It returns a median and 9 percentiles but no mean, so its files have no `mean` column.
+- `make_positive=True` so forecasts can't go below zero sales.
+- Section 6 compares TimesFM-3 directly against Chronos-2 on the same products and days when both have run.
+**Testing:** Logic tested with a stand-in model that enforces the real package's input rules. The real model has **not** run yet.
+**Next:** Max runs 04b with `SAMPLE = True` on a T4, after (or alongside) the full Chronos-2 run.
+
 ## 2026-10-28 · Max (with Claude) · Notebook 04a smoke test: Chronos-2 works on the T4
 **What:** Ran `04a_chronos2.ipynb` with `SAMPLE = True` (100 products) on a free Colab T4 GPU. The real Chronos-2 model downloaded (478 MB) and ran all 14 forecasts (2 runs × 7 windows) with no errors.
 **Timing:** zero-shot ~1 s per window, with covariates ~5.7 s per window for 100 products. Estimate for all 12,196 products: ~15 min (zero-shot) + ~80 min (covariates) ≈ 1.5 hours of T4 time.
