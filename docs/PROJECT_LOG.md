@@ -6,6 +6,16 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-03 · Max (with Claude) · Notebook 04b smoke test: TimesFM-3 works on the T4
+**What:** Ran `04b_timesfm3.ipynb` with `SAMPLE = True` (100 products) on a free Colab T4 GPU. The real TimesFM-3 model downloaded (1.32 GB) and ran all 14 forecasts (2 runs × 7 windows) with no errors.
+**Timing:** zero-shot ~2.3 s per window, with covariates ~9 s per window for 100 products. Estimate for all 12,196 products: ~35 min (zero-shot) + ~2.1 h (covariates) ≈ **2.5–3 hours of T4 time**, slower than Chronos-2.
+**Early results (sample only, not the official evaluation):**
+- TimesFM-3 beats "same weekday last week" by **21–30%** on every window, about the same as Chronos-2.
+- TimesFM-3 vs. Chronos-2 is **close to a tie**: the two are within roughly ±3% of each other on every window. TimesFM-3 is slightly ahead on the test window (0.981 vs. 1.012 MAE, zero-shot).
+- Adding prices and holidays again made **almost no difference** for either model.
+- TimesFM-3's medians sit a bit higher than Chronos-2's for slow and medium sellers, but it shows the **same under-forecasting of spiky fast sellers** (median ~2–3 units/day against spikes of 10–40).
+**Next:** full California run of 04a tonight (~1.5 h), then 04b full run in a separate session (~2.5–3 h).
+
 ## 2026-10-28 · Max (with Claude) · Notebook 04b: TimesFM-3 written
 **What:** Wrote `notebooks/04b_timesfm3.ipynb`: Google's TimesFM-3 with the same two runs (zero-shot, with covariates) and the same 7 windows as 04a, so the two foundation models compare like for like.
 **How the models get into the project:** neither model is built by us. Both are pretrained by their companies, downloaded from Hugging Face at run time, and used as-is. Our code handles the data, windows, inputs, saving and checks. Both are listed in `REUSE_LOG.md` and the README.
