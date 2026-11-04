@@ -7,7 +7,7 @@ Term project for Advanced Deep Learning + ML (Prof. Ghosh), UT Austin McCombs, F
 ## Question
 Can pretrained time series foundation models (Amazon's Chronos-2 and Google's TimesFM-3) forecast Walmart demand as well as the gradient boosting approach that won the M5 competition, and a deep learning model we train ourselves (DeepAR)? Can post-processing beyond zero-shot (calibration, a hybrid residual model, ensembling) close the gap? What is the difference worth in safety-stock dollars?
 
-See [`docs/TEAM.md`](docs/TEAM.md) for roles, the experiment grid and deadlines.
+See [`docs/CHECKLIST.md`](docs/CHECKLIST.md) for what is done and left, and [`docs/TEAM.md`](docs/TEAM.md) for roles, the experiment grid and deadlines.
 
 ## Data
 [M5 Forecasting – Accuracy](https://www.kaggle.com/competitions/m5-forecasting-accuracy/data) (Walmart, via Kaggle). We use California's 4 stores, about 12,000 product-store series, January 2011 to May 2016.
