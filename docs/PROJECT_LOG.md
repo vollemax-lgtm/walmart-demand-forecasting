@@ -6,6 +6,21 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-03 · Max (with Claude) · Chronos-2 full California run complete
+**What:** Ran `04a_chronos2.ipynb` with `SAMPLE = False` on a free Colab T4. All 14 forecasts (2 runs × 7 windows) finished and saved to Drive `data/forecasts/` before Colab disconnected for inactivity.
+**Coverage:** 12,196 products per window (12,175–12,190 in the earliest backtests, because a few products hadn't launched yet).
+**Timing:** zero-shot ~2 min per window (~15 min total); with covariates ~12 min per window (~83 min total). About 1 h 40 min end to end.
+**Results (quick check vs. "same weekday last week", not the official evaluation):**
+| Window | Naive MAE | Chronos-2 zero-shot | Chronos-2 + covariates |
+|---|---|---|---|
+| val_1 | 1.275 | 0.986 (−23%) | 0.987 (−23%) |
+| val_2 | 1.291 | 0.995 (−23%) | 0.993 (−23%) |
+| test | 1.325 | 1.026 (−23%) | 1.028 (−22%) |
+- Chronos-2 beats the naive baseline by a **steady 22–25% on every window**, the same as the sample run suggested.
+- **Covariates still don't help** on the full data: within ±1% everywhere, slightly worse on most windows, and 6× slower. Now a solid finding rather than a sample fluke.
+- Plot (`figures/10_chronos2_examples.png`): for the slow seller the median is **flat at zero** for all 28 days, even though the product sold on several of them. For the faster seller it tracks the weekly pattern well. This is the intermittency problem in one picture and the case for calibration.
+**Next:** TimesFM-3 full run in its own session (~2.5–3 h). Notebook 05 (scoring) to produce the official comparison.
+
 ## 2026-11-03 · Max (with Claude) · Notebook 04b smoke test: TimesFM-3 works on the T4
 **What:** Ran `04b_timesfm3.ipynb` with `SAMPLE = True` (100 products) on a free Colab T4 GPU. The real TimesFM-3 model downloaded (1.32 GB) and ran all 14 forecasts (2 runs × 7 windows) with no errors.
 **Timing:** zero-shot ~2.3 s per window, with covariates ~9 s per window for 100 products. Estimate for all 12,196 products: ~35 min (zero-shot) + ~2.1 h (covariates) ≈ **2.5–3 hours of T4 time**, slower than Chronos-2.
