@@ -6,6 +6,13 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-10 · Max (with Claude) · Team progress since Nov 6; TimesFM-3 hand-off
+**Minji, `02a_seasonal_naive.ipynb` (Nov 6):** two honest baselines for all 12,196 products × 7 windows: `snaive` (same weekday last week) and `smean4` (average of the last 4 same weekdays). Test MAE: snaive 1.335, smean4 **1.172**, Chronos-2 1.026. Chronos-2 is ~23% better than snaive but only **~12% better than smean4**, the stronger baseline to quote.
+**Correction (caught by Minji):** the "lag-7" baseline in the quick checks of 04a/04b used actual sales from inside the forecast window from day 8 on. It made the baseline look slightly better than an honest one, so the earlier "23%" figures were, if anything, conservative vs. snaive. Official comparisons should use 02a's baselines.
+**James, `03_deepar.ipynb` (Nov 6):** DeepAR (neuralforecast, StudentT loss, 84-day input) smoke test on the 100-product sample, CPU, windows val_1/val_2/test. Test MAE 1.031 vs. Chronos-2's 1.012 on the same sample. Full run on GPU and the 4 backtest windows still to do.
+**Hand-off:** Prateek is running the 04b TimesFM-3 full run on his local GPU instead of Colab. He must point `DRIVE_DIR` at his local Google Drive folder and confirm `Device: cuda`. Max still owns interpreting and presenting TimesFM-3.
+**Open:** 05 scoring notebook (overdue, Claude writing next); 02 LightGBM owner to be confirmed.
+
 ## 2026-11-03 · Max (with Claude) · Chronos-2 full California run complete
 **What:** Ran `04a_chronos2.ipynb` with `SAMPLE = False` on a free Colab T4. All 14 forecasts (2 runs × 7 windows) finished and saved to Drive `data/forecasts/` before Colab disconnected for inactivity.
 **Coverage:** 12,196 products per window (12,175–12,190 in the earliest backtests, because a few products hadn't launched yet).
