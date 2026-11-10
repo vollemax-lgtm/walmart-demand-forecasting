@@ -37,7 +37,8 @@ Last updated: **Nov 10, 2026**. Tick items as they finish. Details for each fini
 | [ ] | 03 DeepAR: full CA run on GPU (+ 4 backtest windows) | James | next |
 
 ## Evaluation and post-processing
-- [ ] **05 scoring notebook**: MAE, sales-weighted error, by category and sales speed (Claude writing now; overdue)
+- [x] 05 scoring notebook written (MAE, sales-weighted MAE, bias, by category/speed, safety-stock $ + coverage check), Nov 10
+- [ ] **Run 05 on the real forecasts** (CPU, few minutes); re-run when TimesFM-3 and DeepAR full runs land
 - [ ] Calibration (scale factors + zero cutoff, learned on backtests/validation) | Elena
 - [ ] Hybrid residual model (LightGBM learns the foundation models' errors) | Prateek
 - [ ] Ensemble (best foundation model + LightGBM) | Elena

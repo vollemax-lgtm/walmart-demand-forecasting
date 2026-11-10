@@ -6,6 +6,17 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-10 · Claude (for Elena/Max) · Notebook 05: official scoring written
+**What:** Wrote `notebooks/05_evaluation.ipynb`, which scores every forecast file in `data/forecasts/` the same way.
+**Reports:** MAE, sales-weighted MAE (M5-style: weight = a product's dollar sales in the 28 days before the window), bias, improvement vs. both baselines (`smean4` is the one to quote), breakdowns by category and sales speed on the test window, and safety-stock dollars.
+**Decisions:**
+- **Fair comparison:** within each window, every model is scored only on the product-days that all models forecast.
+- **Safety stock** is sized from each model's errors on val_1 + val_2 (never the test window): 1.65 × std of daily error × √7, times the product's average test-window price. A **coverage check** then tests whether actual weekly demand ≤ weekly forecast + buffer on the 4 test weeks (target ≈ 95%).
+- Reads DeepAR's file format (extra `actual` column, label "DeepAR") without changes to 03.
+- Finds the Drive folder automatically (works whether the shortcut is in My Drive or inside another folder, as for Minji). Writes CSVs to `data/results/` and charts to `data/figures/`.
+**Testing:** Logic tested on the fake M5-shaped dataset with all 7 model types, including files shaped like 02a's and 03's; runs without errors on pandas 2.2 and 3. Not yet run on real forecasts.
+**Next:** run with `SAMPLE = False` on CPU. It will score whatever exists now (snaive, smean4, Chronos-2 ×2) and should be re-run once TimesFM-3 (Prateek) and DeepAR full (James) land.
+
 ## 2026-11-10 · Max (with Claude) · Team progress since Nov 6; TimesFM-3 hand-off
 **Minji, `02a_seasonal_naive.ipynb` (Nov 6):** two honest baselines for all 12,196 products × 7 windows: `snaive` (same weekday last week) and `smean4` (average of the last 4 same weekdays). Test MAE: snaive 1.335, smean4 **1.172**, Chronos-2 1.026. Chronos-2 is ~23% better than snaive but only **~12% better than smean4**, the stronger baseline to quote.
 **Correction (caught by Minji):** the "lag-7" baseline in the quick checks of 04a/04b used actual sales from inside the forecast window from day 8 on. It made the baseline look slightly better than an honest one, so the earlier "23%" figures were, if anything, conservative vs. snaive. Official comparisons should use 02a's baselines.
