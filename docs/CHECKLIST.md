@@ -30,7 +30,7 @@ Last updated: **Nov 10, 2026**. Tick items as they finish. Details for each fini
 | [x] | 04a Chronos-2: smoke test | Max | Oct 28 |
 | [x] | 04a Chronos-2: full California run | Max | Nov 3 |
 | [x] | 04b TimesFM-3: smoke test | Max | Nov 3 |
-| [ ] | **04b TimesFM-3: full California run** (on Prateek's local GPU) | Prateek runs for Max | in progress |
+| [x] | 04b TimesFM-3: full California run (Prateek's local RTX 4070, 58 min) | Prateek runs for Max | Nov 10 |
 | [x] | 02a seasonal naive baselines (snaive + 4-week weekday average), full CA | Minji | Nov 6 |
 | [ ] | 02 winner-style LightGBM (sales-only and +prices/holidays) | owner TBD (Claude writes) | not started |
 | [x] | 03 DeepAR: smoke test (100 products, CPU, 3 windows) | James | Nov 6 |
@@ -58,6 +58,8 @@ Last updated: **Nov 10, 2026**. Tick items as they finish. Details for each fini
 - Chronos-2 beats "same weekday last week" by 23–28% and the stronger 4-week weekday average by ~12% (test: 1.026 vs 1.172 vs 1.335)
 - DeepAR on the 100-product sample: test MAE 1.031, close to Chronos-2 (1.012) on the same sample
 - Prices/holidays don't help Chronos-2 (±1%) and make it 6× slower
-- TimesFM-3 ≈ Chronos-2 on the 100-product sample (within ~3%)
+- TimesFM-3 ≈ Chronos-2 on the full CA data: test MAE 1.016 (zero-shot) / 1.014 (covariates) vs Chronos-2 1.026 / 1.028, i.e. 0.2% to 1.4% lower on every window compared (quick check; official numbers from 05)
+- Covariates help TimesFM-3 slightly (0.2% to 1.3% lower MAE on all 7 windows); they made no difference for Chronos-2
+- TimesFM-3's median under-forecasts total test-window units by ~27% (forecast/actual 0.73), same pattern as Chronos-2; its 10th to 90th percentile range covers 83% to 85% of actual sales (target 80%)
 - Both models' medians under-forecast spiky products and predict flat zero for slow sellers → the case for calibration
 - Median product sells nothing on 60% of days

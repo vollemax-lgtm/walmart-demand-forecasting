@@ -6,6 +6,24 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-10 · Prateek (with Claude) · TimesFM-3 full California run complete (local GPU)
+**What:** Ran `04b_timesfm3.ipynb` with `SAMPLE = False` on a local Windows PC with an RTX 4070 (12 GB) instead of Colab. All 14 forecasts (2 runs × 7 windows) finished with no errors. Executed notebook with outputs and run notes: `notebooks/04b_timesfm3_fullCA.ipynb`.
+**Coverage:** 12,196 products per window (12,175 to 12,190 in the earliest backtests, the same products Chronos-2 skipped).
+**Timing:** zero-shot ~2.2 min per window (15.5 min), with covariates ~5.8 min per window (41 min). **58 minutes total**, vs. ~2.6 h estimated for a T4. Batch size 32 throughout, no out-of-memory retries.
+**Local setup (model code unchanged):** conda env with Python 3.11, PyTorch 2.11 (CUDA 12.8), `timesfm` 3.0.2. `DRIVE_DIR` points at a local copy of the Drive `data/` folder; `SAMPLE`/`BATCH_SIZE` are switched by environment variables from two run scripts; `KMP_DUPLICATE_LIB_OK=TRUE` avoids a Windows OpenMP crash at the plotting step. Scripts and the clean local notebook are in `scripts/04b_local_windows/`. The 100-product test on the 4070 reproduced Max's Colab MAE values exactly (3 decimals, all 14 windows), so local and Colab results are comparable.
+**Results (quick check, not the official evaluation; section 6's lag-7 naive leaks as noted above, so only the model columns are quoted):**
+| Window | Chronos-2 zero-shot | TimesFM-3 zero-shot | Chronos-2 + cov | TimesFM-3 + cov |
+|---|---|---|---|---|
+| val_1 | 0.986 | 0.984 | 0.987 | 0.974 |
+| val_2 | 0.995 | 0.991 | 0.993 | 0.981 |
+| test | 1.026 | 1.016 | 1.028 | 1.014 |
+- TimesFM-3 is **0.2% to 1.4% better** than Chronos-2 on every window compared: effectively a tie.
+- **Covariates help TimesFM-3 slightly** (0.2% to 1.3% lower MAE on all 7 windows), unlike Chronos-2.
+- Extra checks on the test window: total forecast units are **73% of actual** (72% with covariates), so the median under-forecasts by ~27%, like Chronos-2. The 10th to 90th percentile range contains **83% to 85%** of actual sales (target 80%): the quantiles are well calibrated, useful for safety stock.
+- Plot (`figures/11_timesfm3_examples.png`): flat-zero median for the slow seller (it sold on 5 of 28 days); weekly pattern captured for the fast seller but peaks too low (~3 vs 4 to 6 units).
+**Outputs (Drive `data/forecasts/`):** `timesfm3_{zs,cov}_{bt_4,bt_3,bt_2,bt_1,val_1,val_2,test}.parquet`, `run_log.csv`.
+**Next:** re-run `05_evaluation.ipynb` so TimesFM-3 is in the official scores and safety-stock dollars.
+
 ## 2026-11-10 · Claude (for Elena/Max) · Notebook 05: official scoring written
 **What:** Wrote `notebooks/05_evaluation.ipynb`, which scores every forecast file in `data/forecasts/` the same way.
 **Reports:** MAE, sales-weighted MAE (M5-style: weight = a product's dollar sales in the 28 days before the window), bias, improvement vs. both baselines (`smean4` is the one to quote), breakdowns by category and sales speed on the test window, and safety-stock dollars.
