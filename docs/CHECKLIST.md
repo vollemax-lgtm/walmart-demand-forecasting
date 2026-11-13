@@ -1,6 +1,39 @@
 # Master Checklist
 
-Last updated: **Nov 10, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
+Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
+
+## Finish plan (agreed order, from Nov 13)
+
+### Phase 1 · Finish the forecasts (by Wed Nov 18)
+1. [ ] Upload the 14 `timesfm3_*.parquet` files to Drive `data/forecasts/` (Prateek, today)
+2. [ ] Run `05_evaluation` on what exists → first official results table (Elena, today/tomorrow)
+3. [ ] Name the LightGBM owner; Claude writes `02_lightgbm` (today)
+4. [ ] LightGBM smoke test, then full run: sales-only and +prices/holidays, all 7 windows (owner, by Tue Nov 17)
+5. [ ] DeepAR full run on GPU, all 7 windows (James, by Tue Nov 17)
+
+### Phase 2 · Beyond zero-shot (by Fri Nov 20)
+6. [ ] Claude writes `06_post_processing`: calibration, hybrid residual model, ensemble
+7. [ ] Calibration of Chronos-2 / TimesFM-3 (Elena)
+8. [ ] Hybrid residual model: LightGBM learns the foundation models' errors (LightGBM owner)
+9. [ ] Ensemble: best foundation model + LightGBM (Elena)
+10. [ ] Re-run `05_evaluation` with every model → final results table + safety-stock $ (Elena)
+
+### Phase 3 · Freeze and write (by Sun Nov 22)
+11. [ ] Results freeze: no more model changes
+12. [ ] Everyone drafts their blog section; Minji adds the M5 top-solutions summary
+
+### Phase 4 · Present (week of Nov 23)
+13. [ ] Slides: 2–3 per person + takeaways, limitations, future work
+14. [ ] Timed rehearsal before Thanksgiving (Nov 26): 15 min + 3 min Q&A
+15. [ ] Presentation (date on Canvas)
+
+### Phase 5 · Submit (by Mon Dec 7)
+16. [ ] Blog assembled (Minji); README results filled in; requirements pinned
+17. [ ] Reuse/LLM statement from `REUSE_LOG.md`
+18. [ ] Repo public (or professor + TA added); submit doc on Canvas
+19. [ ] Everyone does the peer evaluation
+
+---
 
 ## Deadlines
 - [x] Fri Oct 23: outline submitted (3.8/4)
