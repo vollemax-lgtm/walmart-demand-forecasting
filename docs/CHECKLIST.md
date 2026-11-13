@@ -5,18 +5,18 @@ Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each fini
 ## Finish plan (agreed order, from Nov 13)
 
 ### Phase 1 · Finish the forecasts (by Wed Nov 18)
-1. [ ] Upload the 14 `timesfm3_*.parquet` files to Drive `data/forecasts/` (Prateek, today)
+1. [ ] Upload the 14 `timesfm3_*.parquet` files to Drive `data/forecasts/` (Prateek, today; Max messaged him Nov 13). Notebook + figure already on GitHub
 2. [x] Run `05_evaluation` on what exists → first official results table (Max, Nov 13: baselines + Chronos-2)
 3. [ ] Name the LightGBM owner; Claude writes `02_lightgbm` (today)
 4. [ ] LightGBM smoke test, then full run: sales-only and +prices/holidays, all 7 windows (owner, by Tue Nov 17)
-5. [ ] DeepAR full run on GPU, all 7 windows (James, by Tue Nov 17)
+5. [ ] DeepAR full run on GPU, **including the 4 backtest windows** (James, by Tue Nov 17), so DeepAR can join the ensemble
 
 ### Phase 2 · Beyond zero-shot (by Fri Nov 20)
 6. [x] Claude writes `06_post_processing`: calibration + Chronos-2/TimesFM-3 ensemble (Nov 13). Hybrid model and LightGBM ensemble get added once `02_lightgbm` exists
 6b. [ ] **Run `06_post_processing` (CPU, few minutes), then re-run `05_evaluation`** (Elena; needs the TimesFM-3 files in Drive first)
 7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (Elena)
 8. [ ] Hybrid residual model: LightGBM learns the foundation models' errors (LightGBM owner)
-9. [ ] Ensemble: foundation models done in 06; add LightGBM to it once 02 exists (Elena)
+9. [ ] Ensemble: foundation models done in 06. Claude adds a **3-model ensemble (Chronos-2 + TimesFM-3 + DeepAR)** once James's full run lands; LightGBM joins once 02 exists (Elena runs)
 10. [ ] Re-run `05_evaluation` with every model → final results table + safety-stock $ (Elena)
 
 ### Phase 3 · Freeze and write (by Sun Nov 22)
