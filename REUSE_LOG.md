@@ -10,6 +10,7 @@ The course requires us to declare reused code, pretrained models, and code writt
 | 2026-10-28 | `04b_timesfm3.ipynb` | Full notebook code | Claude (Anthropic), from our team's specification; TimesFM-3 interface from the `timesfm` 3.0.2 package source | Same run and window design as 04a for a like-for-like comparison; covariate list; review and run | Max |
 | | | TimesFM-3 pretrained model | https://huggingface.co/google/timesfm-3.0-pytorch | Used zero-shot and with covariates, no fine-tuning | |
 | 2026-11-10 | `05_evaluation.ipynb` | Full notebook code | Claude (Anthropic), from our team's specification | Metric choices (MAE, sales-weighted MAE, bias), fair common-set rule, safety-stock method and coverage check; review, run and interpret | Elena / Max |
+| 2026-11-13 | `06_post_processing.ipynb` | Full notebook code | Claude (Anthropic), from our team's specification | Choice of corrections (percentile + zero cutoff for error, segment scaling for totals), rolling-origin design, model pair for the ensemble; review, run and interpret | Elena / Max |
 | | | Chronos-2 pretrained model | https://huggingface.co/amazon/chronos-2 | Used zero-shot, no fine-tuning | |
 | | | M5 dataset | https://www.kaggle.com/competitions/m5-forecasting-accuracy | Filtered to California | |
 

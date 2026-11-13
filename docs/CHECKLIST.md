@@ -12,10 +12,11 @@ Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each fini
 5. [ ] DeepAR full run on GPU, all 7 windows (James, by Tue Nov 17)
 
 ### Phase 2 · Beyond zero-shot (by Fri Nov 20)
-6. [ ] Claude writes `06_post_processing`: calibration, hybrid residual model, ensemble
-7. [ ] Calibration of Chronos-2 / TimesFM-3 (Elena)
+6. [x] Claude writes `06_post_processing`: calibration + Chronos-2/TimesFM-3 ensemble (Nov 13). Hybrid model and LightGBM ensemble get added once `02_lightgbm` exists
+6b. [ ] **Run `06_post_processing` (CPU, few minutes), then re-run `05_evaluation`** (Elena; needs the TimesFM-3 files in Drive first)
+7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (Elena)
 8. [ ] Hybrid residual model: LightGBM learns the foundation models' errors (LightGBM owner)
-9. [ ] Ensemble: best foundation model + LightGBM (Elena)
+9. [ ] Ensemble: foundation models done in 06; add LightGBM to it once 02 exists (Elena)
 10. [ ] Re-run `05_evaluation` with every model → final results table + safety-stock $ (Elena)
 
 ### Phase 3 · Freeze and write (by Sun Nov 22)
@@ -72,9 +73,11 @@ Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each fini
 ## Evaluation and post-processing
 - [x] 05 scoring notebook written (MAE, sales-weighted MAE, bias, by category/speed, safety-stock $ + coverage check), Nov 10
 - [ ] **Run 05 on the real forecasts** (CPU, few minutes); re-run when TimesFM-3 and DeepAR full runs land
-- [ ] Calibration (scale factors + zero cutoff, learned on backtests/validation) | Elena
+- [x] Calibration written in 06: `calmae` (per-segment percentile + zero cutoff) and `calbias` (per-segment scale so totals match), rolling origin | Claude, Nov 13
+- [ ] Run 06 + interpret calibration | Elena
 - [ ] Hybrid residual model (LightGBM learns the foundation models' errors) | Prateek
-- [ ] Ensemble (best foundation model + LightGBM) | Elena
+- [x] Foundation-model ensemble written in 06 (`ens_fm`, `ens_fm_calmae`, weight chosen on earlier windows) | Claude, Nov 13
+- [ ] Add LightGBM to the ensemble once 02 exists | Elena
 - [ ] Safety-stock dollars per model (95% service, 7-day lead time) | Elena
 - [ ] *Stretch:* fine-tune a foundation model
 

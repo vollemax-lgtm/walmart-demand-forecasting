@@ -6,6 +6,18 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-13 · Claude (for Elena/Max) · Notebook 06: calibration and foundation-model ensemble written
+**Why:** the "beyond zero-shot" step. Both foundation models' medians run ~27% low in total and predict flat zero for slow sellers.
+**What:** `notebooks/06_post_processing.ipynb` creates six new models from `chronos2_zs` and `timesfm3_cov` (the best run of each):
+- `<model>_calmae`: for each of 9 groups (category × sales speed), picks the percentile (10th–90th) and a zero cutoff (0, 0.25, 0.5) with the lowest MAE on earlier windows. Goal: lower error.
+- `<model>_calbias`: for each group, scales the median so total forecast units match total actual units on earlier windows (scale capped at 0.5–3.0). Goal: unbiased totals for inventory.
+- `ens_fm`: weighted average of Chronos-2 and TimesFM-3 (median and every percentile), weight chosen on earlier windows from 0.0–1.0 in steps of 0.1. `ens_fm_calmae`: the ensemble plus the `calmae` correction.
+**No peeking:** rolling origin. Corrections for val_1 are learned from the 4 backtests, val_2 adds val_1, test adds val_2. Christmas Day is excluded from every fit. The notebook prints the chosen percentiles, cutoffs, scales and ensemble weights so they can be quoted in the blog.
+**Outputs:** new files in the shared format in `data/forecasts/` (val_1, val_2, test), so 05 scores them automatically; figure `22_calibration_before_after.png`.
+**Testing:** run end to end on the fake M5-shaped data on pandas 2.2 and 3; 05 then scored all 13 models with no changes. Not yet run on real forecasts.
+**Waiting on:** TimesFM-3 files in Drive (without them, 06 calibrates Chronos-2 only and skips the ensemble). LightGBM hybrid and LightGBM ensemble get added after `02_lightgbm`.
+**Next:** Elena runs 06 then re-runs 05.
+
 ## 2026-11-10 · Prateek (with Claude) · TimesFM-3 full California run complete (local GPU)
 **What:** Ran `04b_timesfm3.ipynb` with `SAMPLE = False` on a local Windows PC with an RTX 4070 (12 GB) instead of Colab. All 14 forecasts (2 runs × 7 windows) finished with no errors. Executed notebook with outputs and run notes: `notebooks/04b_timesfm3_fullCA.ipynb`.
 **Coverage:** 12,196 products per window (12,175 to 12,190 in the earliest backtests, the same products Chronos-2 skipped).
