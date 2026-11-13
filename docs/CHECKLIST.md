@@ -6,7 +6,7 @@ Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each fini
 
 ### Phase 1 · Finish the forecasts (by Wed Nov 18)
 1. [ ] Upload the 14 `timesfm3_*.parquet` files to Drive `data/forecasts/` (Prateek, today)
-2. [ ] Run `05_evaluation` on what exists → first official results table (Elena, today/tomorrow)
+2. [x] Run `05_evaluation` on what exists → first official results table (Max, Nov 13: baselines + Chronos-2)
 3. [ ] Name the LightGBM owner; Claude writes `02_lightgbm` (today)
 4. [ ] LightGBM smoke test, then full run: sales-only and +prices/holidays, all 7 windows (owner, by Tue Nov 17)
 5. [ ] DeepAR full run on GPU, all 7 windows (James, by Tue Nov 17)
@@ -91,7 +91,8 @@ Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each fini
 - [ ] Repo README "Results" section filled in; requirements pinned
 
 ## Findings so far (for the blog and slides)
-- Chronos-2 beats "same weekday last week" by 23–28% and the stronger 4-week weekday average by ~12% (test: 1.026 vs 1.172 vs 1.335)
+- **Official (05):** Chronos-2 is 12% better than the 4-week-average baseline and 23% better than last-week naive on the test window (MAE 1.026 vs 1.172 vs 1.335); wins in every category and sales-speed group, biggest gain on slow sellers (~25%)
+- **Safety stock (05):** Chronos-2's buffer is $25k cheaper than the baseline but covers only 68% of test weeks (baseline 88%) because its forecasts run low (bias −0.47 units/day) → calibration needed
 - DeepAR on the 100-product sample: test MAE 1.031, close to Chronos-2 (1.012) on the same sample
 - Prices/holidays don't help Chronos-2 (±1%) and make it 6× slower
 - TimesFM-3 ≈ Chronos-2 on the full CA data: test MAE 1.016 (zero-shot) / 1.014 (covariates) vs Chronos-2 1.026 / 1.028, i.e. 0.2% to 1.4% lower on every window compared (quick check; official numbers from 05)

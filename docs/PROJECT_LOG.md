@@ -6,6 +6,22 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-13 · Max (with Claude) · First official results (05_evaluation)
+**What:** Ran `05_evaluation.ipynb` on Colab (CPU) with the forecasts in Drive so far: `snaive`, `smean4` (Minji) and `chronos2_zs`, `chronos2_cov` (Max). All 12,196 products, no rows dropped by the fairness rule. TimesFM-3 not yet included (files not yet in Drive).
+**Results, test window (Apr 25 – May 22, 2016):**
+| Model | MAE | Sales-weighted MAE | Bias (units/day) |
+|---|---|---|---|
+| Chronos-2 zero-shot | **1.026** | **2.156** | −0.468 |
+| Chronos-2 + covariates | 1.028 | 2.156 | −0.459 |
+| Naive, 4-week average | 1.172 | 2.418 | −0.050 |
+| Naive, last week | 1.335 | 2.724 | −0.067 |
+- Chronos-2 is **12% better than the 4-week-average baseline** (23% vs. last-week naive) in MAE, and ~11% better in sales-weighted MAE.
+- It wins in **every category** (Foods 1.32 vs 1.48, Hobbies 0.75 vs 0.89, Household 0.77 vs 0.90) and **every sales-speed group**. Biggest relative gain on slow sellers (0.33 vs 0.44, ~25%); ~10–11% on fast and medium.
+- **Bias:** Chronos-2 runs low by ~0.47 units per product per day; the baselines are nearly unbiased.
+- **Safety stock:** Chronos-2's buffer is **$25k cheaper** than the 4-week-average baseline ($256k vs $281k), **but it covered only 68% of test weeks** vs. 88% for the baseline. The buffer is sized from the error spread and doesn't correct the low bias, so the cheaper number is misleading on its own. This is the clearest case for the `calbias` calibration in 06. Even the baselines fall short of the 95% target (88–90%), suggesting errors are not independent day to day; worth noting as a limitation.
+**Fix:** the error-by-speed chart drew both baselines in the same grey; the notebook now uses two greys (takes effect on the next run). Chart `figures/20_test_mae_by_model.png` added.
+**Next:** TimesFM-3 files into Drive → run 06 → re-run 05.
+
 ## 2026-11-13 · Claude (for Elena/Max) · Notebook 06: calibration and foundation-model ensemble written
 **Why:** the "beyond zero-shot" step. Both foundation models' medians run ~27% low in total and predict flat zero for slow sellers.
 **What:** `notebooks/06_post_processing.ipynb` creates six new models from `chronos2_zs` and `timesfm3_cov` (the best run of each):
