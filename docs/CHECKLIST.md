@@ -72,7 +72,7 @@ Last updated: **Nov 13, 2026**. Tick items as they finish. Details for each fini
 
 ## Evaluation and post-processing
 - [x] 05 scoring notebook written (MAE, sales-weighted MAE, bias, by category/speed, safety-stock $ + coverage check), Nov 10
-- [ ] **Run 05 on the real forecasts** (CPU, few minutes); re-run when TimesFM-3 and DeepAR full runs land
+- [x] Run 05 on the real forecasts (Max, Nov 13). Re-run when TimesFM-3, 06 outputs and DeepAR full run land
 - [x] Calibration written in 06: `calmae` (per-segment percentile + zero cutoff) and `calbias` (per-segment scale so totals match), rolling origin | Claude, Nov 13
 - [ ] Run 06 + interpret calibration | Elena
 - [ ] Hybrid residual model (LightGBM learns the foundation models' errors) | Prateek
