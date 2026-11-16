@@ -6,6 +6,39 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-15 · Max (with Claude) · Status update: TimesFM-3 and DeepAR in Drive, 3-model ensemble added, LightGBM owner named
+**Why this entry:** a catch-up for anyone who lost track. Short version: every model except LightGBM is finished and in Drive; the next step is for Max to run 06 then 05.
+
+**1. TimesFM-3 files uploaded (Prateek, Nov 14).** The 14 `timesfm3_{zs,cov}_<window>.parquet` files from his Nov 10 run are now in Drive `data/forecasts/`. Until now, 05 and 06 couldn't use them.
+
+**2. DeepAR full run finished (James, Nov 13).** Notebook `notebooks/03_deepar_fullCA_with_backtests.ipynb` (on GitHub). All 7 windows, including the 4 backtests, so DeepAR can join the ensemble. Ran on CPU, about 10 minutes per window (~70 min total). Sales history only (no prices or holidays), 84-day input, 2-layer LSTM, Student-t loss.
+
+| Window | bt_4 | bt_3 | bt_2 | bt_1 | val_1 | val_2 | test |
+|---|---|---|---|---|---|---|---|
+| DeepAR MAE (James's scoring) | 0.982 | 0.961 | 1.016 | 1.030 | 1.035 | 1.053 | **1.085** |
+| Products | 12,122 | 12,141 | 12,158 | 12,175 | 12,177 | 12,185 | 12,190 |
+
+- On the test window, DeepAR beats both baselines (1.172 and 1.335) but trails Chronos-2 (1.026) and TimesFM-3 (1.014) by 6–7%. Official comparison comes from 05.
+- It skips a few late-launch products that don't have 84 days of history (6 on the test window). 05's fairness rule then scores **every** model on the same products, so official numbers for the other models may move by a hair compared with Nov 13.
+- File names differ from the convention (`deepar_bt1`, `deepar_val1` rather than `deepar_bt_1`, `deepar_val_1`). 05 reads them fine because it uses the `window` column inside each file; 06 now handles the names too (below). No change needed from James.
+
+**3. Notebook 06 updated (Claude, Nov 15).** Adds a **3-model ensemble**: Chronos-2 + TimesFM-3 + DeepAR.
+- `ens_3`: weighted average of the three medians. Weights (0 to 1 in steps of 0.1, summing to 1) are chosen on earlier windows, the same no-peeking rule as the rest of 06.
+- `ens_3_calbias`: `ens_3` scaled per group so totals match actual sales.
+- No `calmae` version, because DeepAR doesn't produce percentiles.
+- Why add DeepAR: the two foundation models are both pretrained transformers and make similar mistakes; DeepAR is trained only on our data, so its errors should overlap less, which is what makes averaging pay off. 06 prints the chosen weights, so we'll see how much DeepAR actually contributes.
+- Also: 06 now reads DeepAR's file names and sets any negative forecast to 0.
+- Tested end to end on fake M5-shaped data (pandas 2.2 and 3); 05 then scored all 15 models with no changes. Commit `f9ed4df`.
+
+**4. LightGBM owner: Elena.** She's writing and running `02_lightgbm` (sales-only and +prices/holidays, all 7 windows, shared file format), due Tue Nov 17. Once it exists, Claude adds the hybrid model and the LightGBM ensemble to 06.
+
+**5. Roles updated** in `docs/TEAM.md` to match who is actually doing what. Open question: who writes the results and business-impact section, which Elena had before taking LightGBM.
+
+**Next:**
+1. Max: open `06_post_processing.ipynb` fresh from GitHub in Colab (CPU runtime, `SAMPLE = False`), run all; then the same for `05_evaluation.ipynb`. Download both into Project Code so they get committed.
+2. Elena: LightGBM by Nov 17.
+3. Team: pick an owner for the results/business-impact write-up.
+
 ## 2026-11-13 · Max (with Claude) · First official results (05_evaluation)
 **What:** Ran `05_evaluation.ipynb` on Colab (CPU) with the forecasts in Drive so far: `snaive`, `smean4` (Minji) and `chronos2_zs`, `chronos2_cov` (Max). All 12,196 products, no rows dropped by the fairness rule. TimesFM-3 not yet included (files not yet in Drive).
 **Results, test window (Apr 25 – May 22, 2016):**
