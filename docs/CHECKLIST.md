@@ -2,33 +2,31 @@
 
 Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
 
-## Status at a glance (Nov 15)
+## Status at a glance (Nov 19)
 
-**Where we are:** every model except LightGBM has finished its full California run, and all of those forecast files are in Drive. The code for the "beyond zero-shot" step (calibration and ensembles) is written and tested but hasn't been run on the real forecasts yet.
+**Where we are:** every model except LightGBM has been run on all of California and officially scored (Nov 18). TimesFM-3 is the most accurate (13% less error than the 4-week-average baseline), with Chronos-2 close behind. Two extra Chronos-2 experiments (few-shot and fine-tuned) are ready to run. Final run Friday, results freeze Sunday.
 
 | | What | Who | Notes |
 |---|---|---|---|
-| ✅ Done | Data prep: 12,196 California products, 7 windows, EDA | Minji | Oct 21 |
-| ✅ Done | Baselines (last-week naive, 4-week weekday average) | Minji | Nov 6 |
-| ✅ Done | Chronos-2, full run, 7 windows | Max | Nov 3 |
-| ✅ Done | TimesFM-3, full run, 7 windows; **files uploaded to Drive** | Prateek (for Max) | run Nov 10, upload Nov 14 |
-| ✅ Done | DeepAR, full run, **7 windows including backtests**; notebook on GitHub | James | Nov 13, test MAE 1.085 |
-| ✅ Done | Scoring notebook 05, first official results (baselines + Chronos-2) | Claude wrote, Max ran | Nov 13 |
-| ✅ Done | Notebook 06: calibration + 2-model ensemble + **3-model ensemble with DeepAR** | Claude | Nov 13, DeepAR added Nov 15 |
-| 🔄 Next | **Run 06, then re-run 05** → first results table with every model except LightGBM | Max | CPU runtime, ~15 min total |
-| 🔄 In progress | LightGBM (notebook 02): sales-only and +prices/holidays, 7 windows | **Elena** | needed by Tue Nov 17 |
-| ⏳ After LightGBM | Hybrid model (LightGBM learns the foundation models' errors) + LightGBM in the ensemble | Elena runs, Claude adds code to 06 | |
-| ⏳ After that | Final 05 run → final results + safety-stock $; results freeze | Max | Sun Nov 22 |
-| ⏳ Then | Blog sections, slides, rehearsal, submission | everyone | see Phases 3–5 |
+| ✅ Done | Data prep, baselines | Minji | Oct 21, Nov 6 |
+| ✅ Done | Chronos-2 and TimesFM-3 full runs | Max, Prateek | Nov 3, Nov 10 |
+| ✅ Done | DeepAR full run, 7 windows | James | Nov 13 |
+| ✅ Done | Calibration + ensembles (06) and official scoring (05) on real data, 15 models | Claude wrote, Max ran | Nov 18 |
+| ✅ Done | Fair safety-stock comparison; slow-seller fix; leak fix (headline uses zero-shot runs); range score | Claude | Nov 18–19 |
+| 🔄 Today | LightGBM forecast files (price ratio from past prices only) | **Elena** | Thu Nov 19 |
+| 🔄 Running | Few-shot Chronos-2 (04d) and fine-tuned Chronos-2 (04c) | Max | stop Sat Nov 21 if not done |
+| ⏳ Fri | Claude adds LightGBM to 06; Max runs 06 then 05 → final numbers | Max | Fri Nov 20 |
+| ⏳ Sun | Results freeze; blog sections drafted | everyone | Sun Nov 22 |
+| ⏳ Then | Slides (2–3 each), rehearsal (15 min + 3 min Q&A), blog assembly, submission | everyone | see Phases 3–5 |
 
-**Open question for the team:** who writes the **results and business-impact** part (interpreting calibration, the ensemble and safety-stock dollars)? Elena had it originally, but she now owns LightGBM.
+**Open questions:** who writes the results and business-impact section; whether Elena or Claude builds the hybrid model; rehearsal time.
 
 ## How the notebooks connect
 ```
 01 data prep ─► 02a baselines ─┐
                02 LightGBM ────┤   (Elena, in progress)
                03 DeepAR ──────┤
-               04a Chronos-2 ──┤──► forecast files in Drive data/forecasts/
+               04a Chronos-2 ──┤   (+ 04c fine-tuned, 04d few-shot)──► forecast files in Drive data/forecasts/
                04b TimesFM-3 ──┘           │
                                            ▼
                     06 post-processing (calibration + ensembles) ──► more forecast files
