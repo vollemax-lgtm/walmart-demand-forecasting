@@ -6,6 +6,23 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-18 · Max (with Claude) · 06 run on real data; fine-tuning experiment written
+**06 results (its own quick summary; official scores come from 05), test window:**
+| Model | MAE | Forecast ÷ actual units |
+|---|---|---|
+| TimesFM-3 + covariates | 1.014 | 0.72 |
+| TimesFM-3 + `calmae` | 1.013 | 0.70 |
+| Ensemble Chronos-2 + TimesFM-3 (`ens_fm`) | 1.014 | 0.71 |
+| 3-model ensemble with DeepAR (`ens_3`) | 1.014 | 0.71 |
+| Chronos-2 zero-shot | 1.026 | 0.69 |
+| DeepAR | 1.084 | 0.61 |
+| TimesFM-3 + `calbias` | 1.094 | 0.95 |
+- Ensemble weights: 0.8 TimesFM-3 / 0.2 Chronos-2 in every window; **DeepAR got 0.0 weight** in every window, so `ens_3` = `ens_fm`.
+- `calmae` barely moves anything: the median was already the best percentile in almost every group; only the zero cutoff changed.
+- `calbias` fixes totals (72% → 95% of actual) at ~8% higher daily error. For slow sellers the scale hit its 3.0 cap in every category, because their median is ~0 and scaling zero does nothing (figure `22_calibration_before_after.png`, top panel). Proposed fix: scale the mean forecast instead.
+**New: `notebooks/04c_chronos2_finetune.ipynb` (Claude).** LoRA fine-tuning of Chronos-2 with the library's own `Chronos2Pipeline.fit`, retrained per window on history before that window only (val_1, val_2, test). Output `chronos2_ft_<window>.parquet`, scored by 05 automatically; section 6 compares it with zero-shot on the same products. Tested on fake data with stub modules (the model can't be downloaded in Claude's workspace), so the first real test is Max's 100-product smoke run. Timeboxed: if it isn't done by Sat Nov 21 it becomes future work.
+**Still pending:** the new 05 run (not yet in Project Code); Elena's LightGBM (Thu Nov 19).
+
 ## 2026-11-15 · Max (with Claude) · Status update: TimesFM-3 and DeepAR in Drive, 3-model ensemble added, LightGBM owner named
 **Why this entry:** a catch-up for anyone who lost track. Short version: every model except LightGBM is finished and in Drive; the next step is for Max to run 06 then 05.
 

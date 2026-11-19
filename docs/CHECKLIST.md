@@ -1,6 +1,6 @@
 # Master Checklist
 
-Last updated: **Sun Nov 15, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
+Last updated: **Wed Nov 18, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
 
 ## Status at a glance (Nov 15)
 
@@ -52,7 +52,8 @@ Last updated: **Sun Nov 15, 2026**. Tick items as they finish. Details for each 
 ### Phase 2 · Beyond zero-shot (by Fri Nov 20)
 6. [x] Claude writes `06_post_processing`: calibration + Chronos-2/TimesFM-3 ensemble (Nov 13)
 6a. [x] Claude adds the **3-model ensemble (Chronos-2 + TimesFM-3 + DeepAR)** to 06 and makes it read DeepAR's file names (Nov 15)
-6b. [ ] **Run `06_post_processing`, then re-run `05_evaluation`** (Max; CPU runtime; open both fresh from GitHub)
+6b. [x] Run `06_post_processing` on the real forecasts (Max, Nov 18). 05 re-run pending upload
+6c. [ ] Fine-tune Chronos-2 (`04c`): smoke test, full run, then 05 scores it (Max; timeboxed to Sat Nov 21)
 7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (owner to confirm)
 8. [ ] Hybrid model: LightGBM learns the foundation models' errors (Elena runs; Claude writes once 02 exists)
 9. [ ] Add LightGBM to the ensemble (Claude adds to 06 once 02 exists; Max re-runs 06)
@@ -108,6 +109,7 @@ Last updated: **Sun Nov 15, 2026**. Tick items as they finish. Details for each 
 | [x] | 04a Chronos-2: full California run | Max | Nov 3 |
 | [x] | 04b TimesFM-3: smoke test | Max | Nov 3 |
 | [x] | 04b TimesFM-3: full California run (Prateek's local RTX 4070, 58 min) | Prateek runs for Max | Nov 10; files in Drive Nov 14 |
+| [ ] | 04c Chronos-2 fine-tuned (LoRA), val_1/val_2/test: smoke test, then full run. **Timeboxed: drop to future work if not done by Sat Nov 21** | Max (Claude wrote, Nov 18) | ready to run |
 
 ## Evaluation and post-processing
 - [x] 05 scoring notebook written (MAE, sales-weighted MAE, bias, by category/speed, safety-stock $ + coverage check), Nov 10
@@ -120,7 +122,7 @@ Last updated: **Sun Nov 15, 2026**. Tick items as they finish. Details for each 
 - [ ] Hybrid model (LightGBM learns the foundation models' errors) | Elena
 - [ ] Add LightGBM to the ensemble once 02 exists | Claude writes, Max runs
 - [ ] Safety-stock dollars per model, final (95% service, 7-day lead time) | comes out of the final 05 run
-- [ ] *Stretch:* fine-tune a foundation model
+- [ ] Fine-tune Chronos-2 (`04c`, timeboxed to Sat Nov 21) | Max runs
 
 ## Write-up and presentation
 - [ ] M5 top-solutions summary (related work) | Minji
