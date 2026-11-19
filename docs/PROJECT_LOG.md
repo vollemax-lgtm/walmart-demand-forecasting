@@ -6,6 +6,14 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-18 (night) · Claude (for Max) · Safety-stock method fixed (05); slow-seller fix (06)
+**Why:** the Nov 18 run showed the foundation models' buffers ~$27k cheaper than the baseline's but covering only 65–71% of weeks (baseline 88%), so the dollar comparison wasn't fair; and `calbias` couldn't lift slow sellers off zero.
+**05, section 8 (approved by Max):** buffers are now sized in weeks, on val_1 + val_2. Per product and model: safety stock = average weekly shortfall (the bias) + *k* × spread of weekly shortfalls, floored at 0. *k* is chosen per model so every model covers 95% of validation product-weeks; the test window then checks whether that holds on unseen weeks. Dollars are compared at equal service. The old method (1.65 × daily spread × √7) stays as a reference table to explain the change. Chart labels added for the 06 models; the speed chart shows raw models only.
+**06, `calbias`:** now scales the model's average forecast (Chronos-2's `mean` column; for TimesFM-3 the average of its 10th–90th percentiles) instead of the median. DeepAR-only mixes (`ens_3_calbias`) still use the median, since DeepAR has no percentiles.
+**Testing:** both notebooks run end to end on fake M5-shaped data on pandas 2.2 and 3. On fake data, every model lands at 95% coverage on validation and 90–93% on test, so the method behaves as intended. Real numbers come from the final run.
+**04c fix:** Colab's preinstalled `torchao` 0.10 made `peft` refuse to load; the install cell now removes it.
+**Next:** Max's final run after Elena's LightGBM lands (06, then 05).
+
 ## 2026-11-18 (later) · Max (with Claude) · Official results: 05 re-run with 15 models
 **What:** 05 on everything in Drive except LightGBM and the fine-tuned model: baselines, Chronos-2 ×2, TimesFM-3 ×2, DeepAR, and the 8 calibrated/ensemble versions from 06. The fairness rule dropped 0.1% of rows (products DeepAR skips), so every model is scored on the same 12,190 test products.
 **Test window, official:**

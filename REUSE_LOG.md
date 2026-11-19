@@ -13,6 +13,7 @@ The course requires us to declare reused code, pretrained models, and code writt
 | 2026-11-13 | `06_post_processing.ipynb` | Full notebook code | Claude (Anthropic), from our team's specification | Choice of corrections (percentile + zero cutoff for error, segment scaling for totals), rolling-origin design, model pair for the ensemble; review, run and interpret | Elena / Max |
 | 2026-11-15 | `06_post_processing.ipynb` (update) | 3-model ensemble (Chronos-2 + TimesFM-3 + DeepAR) and loader for DeepAR's file names | Claude (Anthropic), from our team's specification | Decision to add DeepAR to the ensemble; review, run and interpret | Max |
 | 2026-11-18 | `04c_chronos2_finetune.ipynb` | Full notebook code (LoRA fine-tuning via `chronos-forecasting`'s `Chronos2Pipeline.fit`) | Claude (Anthropic), from our team's specification | Decision to test fine-tuning as a timeboxed experiment; run, check and interpret | Max |
+| 2026-11-18 | `05_evaluation.ipynb`, `06_post_processing.ipynb` (update) | Bias-adjusted safety stock held to 95% coverage (05); `calbias` scales the average forecast instead of the median (06); chart labels | Claude (Anthropic), from our team's specification | Decision to change the safety-stock method and fix slow sellers; run and interpret | Max |
 | | | Chronos-2 pretrained model | https://huggingface.co/amazon/chronos-2 | Used zero-shot, no fine-tuning | |
 | | | M5 dataset | https://www.kaggle.com/competitions/m5-forecasting-accuracy | Filtered to California | |
 

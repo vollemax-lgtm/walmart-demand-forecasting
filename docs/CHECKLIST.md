@@ -53,6 +53,7 @@ Last updated: **Wed Nov 18, 2026**. Tick items as they finish. Details for each 
 6. [x] Claude writes `06_post_processing`: calibration + Chronos-2/TimesFM-3 ensemble (Nov 13)
 6a. [x] Claude adds the **3-model ensemble (Chronos-2 + TimesFM-3 + DeepAR)** to 06 and makes it read DeepAR's file names (Nov 15)
 6b. [x] Run `06_post_processing`, then re-run `05_evaluation` on the real forecasts (Max, Nov 18): 15 models scored
+6d. [x] Safety-stock method fixed in 05 (bias-adjusted, all models held to 95% coverage) and slow-seller fix for `calbias` in 06 (Claude, Nov 18)
 6c. [ ] Fine-tune Chronos-2 (`04c`): smoke test, full run, then 05 scores it (Max; timeboxed to Sat Nov 21)
 7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (owner to confirm)
 8. [ ] Hybrid model: LightGBM learns the foundation models' errors (Elena runs; Claude writes once 02 exists)
