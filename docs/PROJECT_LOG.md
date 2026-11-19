@@ -6,6 +6,11 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-19 (evening) · Elena, Max (with Claude) · LightGBM in; added to the ensemble
+**`notebooks/02_lightgbm.ipynb` (Elena, pushed 4 PM).** One global LightGBM per window, trained on the 2 years before it; every sales feature at least 28 days old, so one model forecasts all 28 days with no peeking; Tweedie loss (standard for M5's zero-heavy counts). Price features use past prices only (`price_ratio_28` = price ÷ average of the previous 28 days), so no look-ahead. **Status:** `lgbm` (sales only) done for all 7 windows and in Drive (~20 min per window on free Colab); `lgbm_cov` (with prices/holidays) handed to Prateek to finish locally. Claude reviewed the notebook read-only: file names, columns and windows match the shared format, so 05 scores it with no changes.
+**06 (Claude):** new `ens_lgbm` = Chronos-2 + TimesFM-3 + LightGBM, weights chosen on earlier windows, plus `ens_lgbm_calbias`. Uses the sales-only `lgbm`, matching the zero-shot foundation models (sales history only). Tested on fake data (pandas 2.2 and 3). Labels added in 05.
+**Next:** Max runs 04c/04d tonight; final 06 → 05 once `lgbm_cov` lands (or without it, then re-run).
+
 ## 2026-11-19 · Max (with Claude) · Few-shot notebook, leak fix, range score
 **Why:** Dr. Ghosh asked for few-shot with the time-series models; a review of 01 found a small look-ahead in a price feature; and average miss (MAE) can't show what inventory needs.
 1. **New `notebooks/04d_chronos2_fewshot.ipynb`.** Few-shot = in-context learning: Chronos-2 forecasts 100 related products together (`cross_learning=True`), no training. Products are sorted by ID, so each batch is the same item in the 4 stores plus nearby items in the same department. Output `chronos2_fs_<window>.parquet` (val_1, val_2, test); section 6 compares it with zero-shot overall, by sales speed, and for products with under a year of history. Gives the slides a ladder: zero-shot (04a) → few-shot (04d) → fine-tuned (04c). TimesFM-3 is left out: we couldn't confirm the public 3.0 package supports few-shot.

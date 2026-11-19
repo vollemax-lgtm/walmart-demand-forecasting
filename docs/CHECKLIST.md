@@ -13,7 +13,8 @@ Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each 
 | ✅ Done | DeepAR full run, 7 windows | James | Nov 13 |
 | ✅ Done | Calibration + ensembles (06) and official scoring (05) on real data, 15 models | Claude wrote, Max ran | Nov 18 |
 | ✅ Done | Fair safety-stock comparison; slow-seller fix; leak fix (headline uses zero-shot runs); range score | Claude | Nov 18–19 |
-| 🔄 Today | LightGBM forecast files (price ratio from past prices only) | **Elena** | Thu Nov 19 |
+| ✅ Done | LightGBM sales-only (`lgbm`), 7 windows, in Drive; added to the ensemble in 06 (`ens_lgbm`) | Elena; Claude (06) | Nov 19 |
+| 🔄 Today | LightGBM with prices/holidays (`lgbm_cov`) | Prateek (Elena's notebook) | Thu Nov 19 |
 | 🔄 Running | Few-shot Chronos-2 (04d) and fine-tuned Chronos-2 (04c) | Max | stop Sat Nov 21 if not done |
 | ⏳ Fri | Claude adds LightGBM to 06; Max runs 06 then 05 → final numbers | Max | Fri Nov 20 |
 | ⏳ Sun | Results freeze; blog sections drafted | everyone | Sun Nov 22 |
@@ -44,7 +45,7 @@ Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each 
 1. [x] Upload the 14 `timesfm3_*.parquet` files to Drive `data/forecasts/` (Prateek, Nov 14)
 2. [x] Run `05_evaluation` on what exists → first official results table (Max, Nov 13: baselines + Chronos-2)
 3. [x] Name the LightGBM owner: **Elena** (Nov 15)
-4. [ ] LightGBM: sales-only and +prices/holidays, all 7 windows, saved in the shared file format (Elena, by Tue Nov 17)
+4. [ ] LightGBM: sales-only ✅ (Nov 19, Elena), +prices/holidays in progress (Prateek);, all 7 windows, saved in the shared file format (Elena, by Tue Nov 17)
 5. [x] DeepAR full run **including the 4 backtest windows** (James, Nov 13; ran on CPU, ~10 min per window). Notebook: `notebooks/03_deepar_fullCA_with_backtests.ipynb`
 
 ### Phase 2 · Beyond zero-shot (by Fri Nov 20)
