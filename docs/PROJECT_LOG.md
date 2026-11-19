@@ -6,6 +6,25 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-18 (later) · Max (with Claude) · Official results: 05 re-run with 15 models
+**What:** 05 on everything in Drive except LightGBM and the fine-tuned model: baselines, Chronos-2 ×2, TimesFM-3 ×2, DeepAR, and the 8 calibrated/ensemble versions from 06. The fairness rule dropped 0.1% of rows (products DeepAR skips), so every model is scored on the same 12,190 test products.
+**Test window, official:**
+| Model | MAE | Sales-weighted MAE | Bias | vs 4-wk avg | Safety stock $ | Weeks covered |
+|---|---|---|---|---|---|---|
+| TimesFM-3 + `calmae` | **1.013** | **2.096** | −0.457 | +14% | $254,061 | 67.3% |
+| TimesFM-3 + covariates | 1.014 | 2.097 | −0.429 | +13% | $253,650 | 69.7% |
+| Ensemble FM (`ens_fm`, = `ens_3`) | 1.014 | 2.102 | −0.436 | +13% | $253,641 | 69.4% |
+| TimesFM-3 zero-shot | 1.016 | 2.104 | −0.410 | +13% | $254,747 | 71.2% |
+| Chronos-2 zero-shot | 1.026 | 2.157 | −0.468 | +12% | $255,406 | 67.9% |
+| DeepAR | 1.084 | 2.368 | −0.589 | +8% | $261,033 | 65.3% |
+| TimesFM-3 + `calbias` | 1.094 | 2.399 | −0.082 | +7% | $258,196 | 75.7% |
+| Naive, 4-week average | 1.172 | 2.419 | −0.050 | 0% | $280,523 | 88.0% |
+| Naive, last week | 1.335 | 2.725 | −0.067 | −14% | $341,179 | 89.6% |
+- TimesFM-3 wins every category and sales-speed group; the foundation models beat the 4-week baseline by 12–14%, DeepAR by 8%.
+- **Safety stock is the weak spot:** the models' buffers are ~$27k cheaper than the baseline's but cover only 65–71% of weeks vs. 88%. `calbias` lifts coverage to ~76%, still short. The buffer method (1.65 × daily error spread × √7) ignores the models' low bias and assumes independent daily errors, so the dollar comparison isn't apples to apples. Proposed fix: size each buffer from the 95th percentile of weekly shortfalls on val_1/val_2 (includes bias), then compare dollars at equal coverage.
+- Chart labels for the new 06 models show raw names (`ens_fm`, `timesfm3_cov_calmae`); to tidy before the final run.
+**Figures:** `20_test_mae_by_model.png`, `21_test_mae_by_speed.png` updated.
+
 ## 2026-11-18 · Max (with Claude) · 06 run on real data; fine-tuning experiment written
 **06 results (its own quick summary; official scores come from 05), test window:**
 | Model | MAE | Forecast ÷ actual units |
