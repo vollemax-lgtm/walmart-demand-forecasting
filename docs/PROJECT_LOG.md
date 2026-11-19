@@ -6,6 +6,13 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-19 · Max (with Claude) · Few-shot notebook, leak fix, range score
+**Why:** Dr. Ghosh asked for few-shot with the time-series models; a review of 01 found a small look-ahead in a price feature; and average miss (MAE) can't show what inventory needs.
+1. **New `notebooks/04d_chronos2_fewshot.ipynb`.** Few-shot = in-context learning: Chronos-2 forecasts 100 related products together (`cross_learning=True`), no training. Products are sorted by ID, so each batch is the same item in the 4 stores plus nearby items in the same department. Output `chronos2_fs_<window>.parquet` (val_1, val_2, test); section 6 compares it with zero-shot overall, by sales speed, and for products with under a year of history. Gives the slides a ladder: zero-shot (04a) → few-shot (04d) → fine-tuned (04c). TimesFM-3 is left out: we couldn't confirm the public 3.0 package supports few-shot.
+2. **Look-ahead in `price_ratio` (01).** It divides each day's price by the product's mean price over the full dataset, test window included. It affects only the covariate runs (`chronos2_cov`, `timesfm3_cov`). Since covariates gained just ~0.2%, 06 now builds on the zero-shot runs (`chronos2_zs`, `timesfm3_zs`), and the headline model is TimesFM-3 zero-shot. 06 moves older outputs it no longer makes (e.g. `timesfm3_cov_calmae`) into `forecasts/old_06_outputs/` so 05 doesn't score them; nothing is deleted. **Elena:** compute any price ratio in LightGBM against past prices only (e.g. trailing 28-day average).
+3. **05 section 8b: quantile loss.** Grades the 10th–90th percentile range for models that save percentiles, plus an 80%-range hit rate. Turns the "best accuracy ≠ best for stocking" lesson into a number.
+Tested end to end on fake data (pandas 2.2 and 3); 04d with a stand-in for the model.
+
 ## 2026-11-18 (night) · Claude (for Max) · Safety-stock method fixed (05); slow-seller fix (06)
 **Why:** the Nov 18 run showed the foundation models' buffers ~$27k cheaper than the baseline's but covering only 65–71% of weeks (baseline 88%), so the dollar comparison wasn't fair; and `calbias` couldn't lift slow sellers off zero.
 **05, section 8 (approved by Max):** buffers are now sized in weeks, on val_1 + val_2. Per product and model: safety stock = average weekly shortfall (the bias) + *k* × spread of weekly shortfalls, floored at 0. *k* is chosen per model so every model covers 95% of validation product-weeks; the test window then checks whether that holds on unseen weeks. Dollars are compared at equal service. The old method (1.65 × daily spread × √7) stays as a reference table to explain the change. Chart labels added for the 06 models; the speed chart shows raw models only.

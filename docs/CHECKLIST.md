@@ -1,6 +1,6 @@
 # Master Checklist
 
-Last updated: **Wed Nov 18, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
+Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
 
 ## Status at a glance (Nov 15)
 
@@ -54,6 +54,9 @@ Last updated: **Wed Nov 18, 2026**. Tick items as they finish. Details for each 
 6a. [x] Claude adds the **3-model ensemble (Chronos-2 + TimesFM-3 + DeepAR)** to 06 and makes it read DeepAR's file names (Nov 15)
 6b. [x] Run `06_post_processing`, then re-run `05_evaluation` on the real forecasts (Max, Nov 18): 15 models scored
 6d. [x] Safety-stock method fixed in 05 (bias-adjusted, all models held to 95% coverage) and slow-seller fix for `calbias` in 06 (Claude, Nov 18)
+6e. [ ] Few-shot Chronos-2 (`04d`, in-context, no training): smoke test, full run (Max; timeboxed to Sat Nov 21)
+6f. [x] Leak fix: 06 uses zero-shot runs (price_ratio look-ahead in covariate runs); quantile-loss score added to 05 (Claude, Nov 19)
+6g. [ ] Tell Elena: compute price ratios from past prices only in LightGBM (Max/Elena, Nov 19)
 6c. [ ] Fine-tune Chronos-2 (`04c`): smoke test, full run, then 05 scores it (Max; timeboxed to Sat Nov 21)
 7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (owner to confirm)
 8. [ ] Hybrid model: LightGBM learns the foundation models' errors (Elena runs; Claude writes once 02 exists)
@@ -110,6 +113,7 @@ Last updated: **Wed Nov 18, 2026**. Tick items as they finish. Details for each 
 | [x] | 04a Chronos-2: full California run | Max | Nov 3 |
 | [x] | 04b TimesFM-3: smoke test | Max | Nov 3 |
 | [x] | 04b TimesFM-3: full California run (Prateek's local RTX 4070, 58 min) | Prateek runs for Max | Nov 10; files in Drive Nov 14 |
+| [ ] | 04d Chronos-2 few-shot (in-context, 100 related products per batch), val_1/val_2/test. **Timeboxed to Sat Nov 21** | Max (Claude wrote, Nov 19) | ready to run |
 | [ ] | 04c Chronos-2 fine-tuned (LoRA), val_1/val_2/test: smoke test, then full run. **Timeboxed: drop to future work if not done by Sat Nov 21** | Max (Claude wrote, Nov 18) | ready to run |
 
 ## Evaluation and post-processing
