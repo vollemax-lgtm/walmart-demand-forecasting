@@ -15,7 +15,7 @@ Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each 
 | ✅ Done | DeepAR full run, 7 windows | James | Nov 13 |
 | ✅ Done | LightGBM sales-only (`lgbm`) and with prices/holidays (`lgbm_cov`), 7 windows each | Elena; Prateek ran `lgbm_cov` | Nov 19 |
 | ✅ Done | 06 ready with every ensemble (+ DeepAR, + LightGBM), fair safety-stock comparison, leak fix, range score | Claude | Nov 18–19 |
-| ▶ Next | **Final run: 06, then 05** (CPU, fresh from GitHub), then download both to Project Code | Max | Fri Nov 20 |
+| ▶ Next | **Final run: 06, then 05** (CPU, fresh from GitHub), then download both to Project Code. First 06 pass done Nov 20; re-run after Claude's Chronos-2 `calbias` fix | Max | Fri Nov 20 |
 | ◐ Optional | Few-shot Chronos-2 (`04d`) and fine-tuned Chronos-2 (`04c`); not in Project Code yet | Max | stop Sat Nov 21 |
 | ⏳ Sat | Final results table in plain language, safety-stock $, confidence ranges, charts; docs updated | Claude | Sat Nov 21 |
 | ⏳ Sun | **Results freeze**; everyone's blog section drafted | everyone | Sun Nov 22 |
@@ -25,7 +25,7 @@ Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each 
 **Open decisions:**
 1. **Who writes the results and business-impact section?** (suggestion: James or Prateek)
 2. **Hybrid model:** still wanted, and who builds it? Without it, LightGBM's role is its own score plus the ensemble.
-3. **Slow sellers → LightGBM?** Prateek's finding suggests a "route by sales speed" mix (LightGBM for slow sellers, TimesFM-3 for fast). Claude can add it to 06 in about an hour if the team wants it before the freeze.
+3. **Slow sellers → LightGBM?** Prateek's finding suggests routing slow sellers to LightGBM. Note: the Nov 20 run gave LightGBM 0% weight because weights are picked on daily accuracy, where it loses; routing would have to be judged on totals or safety stock instead. Decide after seeing 05's safety-stock numbers.
 4. Rehearsal time.
 
 ## How the notebooks connect

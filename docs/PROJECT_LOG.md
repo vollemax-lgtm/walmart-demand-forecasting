@@ -6,6 +6,13 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-20 · Max (with Claude) · Final 06 run, first pass; Chronos-2 calbias bug fixed
+**06 ran on every model** (Chronos-2, TimesFM-3 zero-shot, DeepAR, LightGBM; 7 windows each). Older `timesfm3_cov_cal*` outputs moved to `forecasts/old_06_outputs/`.
+- **Ensemble weights (all three target windows):** Chronos-2 0.4 / TimesFM-3 0.6 (was 0.2/0.8 with the covariate TimesFM run). **DeepAR 0.0 and LightGBM 0.0.** Weights are chosen on daily accuracy (MAE), where LightGBM loses (test 1.114 vs TimesFM-3 1.016); its strength is totals (forecast ÷ actual 0.92 vs 0.73), which MAE doesn't reward. So `ens_3` = `ens_lgbm` = `ens_fm`.
+- **TimesFM-3 `calbias` now works for slow sellers:** scales 1.04–1.21 in every group, totals 0.97 of actual, test MAE 1.086.
+- **Bug (Claude):** Chronos-2's saved `mean` column is the median (the library says so in `chronos2/pipeline.py`), so its `calbias` still hit the 3.0 cap for slow sellers. Fixed: `calbias` always scales the average of the 10th–90th percentiles. Max re-runs 06 then 05 for the final numbers.
+- 06's quick check, test MAE: TimesFM-3 + calmae 1.014, ens_fm + calmae 1.015, TimesFM-3 1.016, ens_fm 1.017, Chronos-2 1.026, DeepAR 1.084, TimesFM-3 + calbias 1.086, lgbm 1.114.
+
 ## 2026-11-19 (night) · Prateek (with Claude) · `lgbm_cov` done: LightGBM forecasts slow sellers
 **What:** Ran Elena's `02_lightgbm.ipynb` for `lgbm_cov` (with prices/holidays), all 7 windows, locally on a laptop CPU (Ryzen 7 5800H, 8 cores): **27 min total**, ~3.5 min per window (free Colab: ~20 min per window). Replaced Elena's 2 Colab windows (`bt_3`, `bt_4`) in Drive so all 7 come from one run. CPU on purpose, matching Elena's `lgbm` run, so the two LightGBM runs differ only by covariates. Executed notebook with run notes: `notebooks/02_lightgbm_cov_fullCA.ipynb`; local scripts in `scripts/02_local_windows/`. Model code and settings unchanged.
 **Test window (quick check; official numbers from 05):** MAE **1.104**, 6% better than `smean4` (1.172) but behind TimesFM-3 zero-shot (1.016), Chronos-2 zero-shot (1.026) and DeepAR (1.084).
