@@ -6,6 +6,10 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-20 · Claude · 05 made memory-light
+**Why:** 05 crashed on Colab after using all its RAM: it loaded every window (including backtests) of ~25 models as text product IDs, plus all 5 years of sales.
+**Fix:** 05 now reads only the scored windows (skips backtest files), stores product IDs as integer codes, uses 32-bit numbers, and loads only the sales dates it needs (28 days before val_1 through the test window). Same scores and logic; tested on fake data (pandas 2.2 and 3).
+
 ## 2026-11-20 · Max (with Claude) · Final 06 run, first pass; Chronos-2 calbias bug fixed
 **06 ran on every model** (Chronos-2, TimesFM-3 zero-shot, DeepAR, LightGBM; 7 windows each). Older `timesfm3_cov_cal*` outputs moved to `forecasts/old_06_outputs/`.
 - **Ensemble weights (all three target windows):** Chronos-2 0.4 / TimesFM-3 0.6 (was 0.2/0.8 with the covariate TimesFM run). **DeepAR 0.0 and LightGBM 0.0.** Weights are chosen on daily accuracy (MAE), where LightGBM loses (test 1.114 vs TimesFM-3 1.016); its strength is totals (forecast ÷ actual 0.92 vs 0.73), which MAE doesn't reward. So `ens_3` = `ens_lgbm` = `ens_fm`.
