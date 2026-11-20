@@ -14,7 +14,7 @@ Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each 
 | ✅ Done | Calibration + ensembles (06) and official scoring (05) on real data, 15 models | Claude wrote, Max ran | Nov 18 |
 | ✅ Done | Fair safety-stock comparison; slow-seller fix; leak fix (headline uses zero-shot runs); range score | Claude | Nov 18–19 |
 | ✅ Done | LightGBM sales-only (`lgbm`), 7 windows, in Drive; added to the ensemble in 06 (`ens_lgbm`) | Elena; Claude (06) | Nov 19 |
-| 🔄 Today | LightGBM with prices/holidays (`lgbm_cov`) | Prateek (Elena's notebook) | Thu Nov 19 |
+| ✅ Done | LightGBM with prices/holidays (`lgbm_cov`), 7 windows, in Drive (test MAE 1.104; forecasts 93% of units, 84% for slow sellers) | Prateek (Elena's notebook, local CPU) | Nov 19 |
 | 🔄 Running | Few-shot Chronos-2 (04d) and fine-tuned Chronos-2 (04c) | Max | stop Sat Nov 21 if not done |
 | ⏳ Fri | Claude adds LightGBM to 06; Max runs 06 then 05 → final numbers | Max | Fri Nov 20 |
 | ⏳ Sun | Results freeze; blog sections drafted | everyone | Sun Nov 22 |
@@ -45,7 +45,7 @@ Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each 
 1. [x] Upload the 14 `timesfm3_*.parquet` files to Drive `data/forecasts/` (Prateek, Nov 14)
 2. [x] Run `05_evaluation` on what exists → first official results table (Max, Nov 13: baselines + Chronos-2)
 3. [x] Name the LightGBM owner: **Elena** (Nov 15)
-4. [ ] LightGBM: sales-only ✅ (Nov 19, Elena), +prices/holidays in progress (Prateek);, all 7 windows, saved in the shared file format (Elena, by Tue Nov 17)
+4. [x] LightGBM: sales-only ✅ (Nov 19, Elena), +prices/holidays ✅ (Nov 19, Prateek), all 7 windows each, saved in the shared file format
 5. [x] DeepAR full run **including the 4 backtest windows** (James, Nov 13; ran on CPU, ~10 min per window). Notebook: `notebooks/03_deepar_fullCA_with_backtests.ipynb`
 
 ### Phase 2 · Beyond zero-shot (by Fri Nov 20)
@@ -105,7 +105,7 @@ Last updated: **Thu Nov 19, 2026**. Tick items as they finish. Details for each 
 | Done | Notebook | Owner | Status |
 |---|---|---|---|
 | [x] | 02a seasonal naive baselines (snaive + 4-week weekday average), full CA | Minji | Nov 6 |
-| [ ] | 02 winner-style LightGBM (sales-only and +prices/holidays), 7 windows | **Elena** | in progress, due Tue Nov 17 |
+| [x] | 02 winner-style LightGBM (sales-only and +prices/holidays), 7 windows | **Elena** (`lgbm_cov` run by Prateek) | Nov 19 |
 | [x] | 03 DeepAR: smoke test (100 products, CPU, 3 windows) | James | Nov 6 |
 | [x] | 03 DeepAR: full CA run, all 7 windows (CPU, ~70 min) | James | Nov 13 |
 | [x] | 04a Chronos-2: smoke test | Max | Oct 28 |

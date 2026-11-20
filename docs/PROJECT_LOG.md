@@ -6,6 +6,20 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-19 (night) · Prateek (with Claude) · `lgbm_cov` done: LightGBM forecasts slow sellers
+**What:** Ran Elena's `02_lightgbm.ipynb` for `lgbm_cov` (with prices/holidays), all 7 windows, locally on a laptop CPU (Ryzen 7 5800H, 8 cores): **27 min total**, ~3.5 min per window (free Colab: ~20 min per window). Replaced Elena's 2 Colab windows (`bt_3`, `bt_4`) in Drive so all 7 come from one run. CPU on purpose, matching Elena's `lgbm` run, so the two LightGBM runs differ only by covariates. Executed notebook with run notes: `notebooks/02_lightgbm_cov_fullCA.ipynb`; local scripts in `scripts/02_local_windows/`. Model code and settings unchanged.
+**Test window (quick check; official numbers from 05):** MAE **1.104**, 6% better than `smean4` (1.172) but behind TimesFM-3 zero-shot (1.016), Chronos-2 zero-shot (1.026) and DeepAR (1.084).
+**Main finding: total demand, especially slow sellers.** Compared with actual sales and with TimesFM-3 zero-shot on the test window:
+| Sales speed | MAE lgbm_cov | MAE TimesFM-3 | Units forecast ÷ sold, lgbm_cov | Units forecast ÷ sold, TimesFM-3 |
+|---|---|---|---|---|
+| Slow | 0.434 | 0.331 | **84%** | 17% |
+| Medium | 0.843 | 0.788 | **90%** | 56% |
+| Fast | 2.035 | 1.928 | **95%** | 83% |
+| All | 1.104 | 1.016 | **93%** | 73% |
+LightGBM (Tweedie loss) forecasts small realistic amounts for slow sellers instead of ~0, so it loses on MAE but is much closer on totals. Supports routing slow sellers to LightGBM in 06, judged on bias, coverage and safety stock as well as MAE.
+**Feature importance** (`figures/12_lgbm_feature_importance.png`): 112- and 56-day sales averages ~70% of gain, `item_id` ~10%; the top price feature ~1%, Christmas less. Covariates add almost nothing, consistent with Chronos-2 and TimesFM-3.
+**Next:** Max's final 06 → 05 now has every LightGBM file.
+
 ## 2026-11-19 (evening) · Elena, Max (with Claude) · LightGBM in; added to the ensemble
 **`notebooks/02_lightgbm.ipynb` (Elena, pushed 4 PM).** One global LightGBM per window, trained on the 2 years before it; every sales feature at least 28 days old, so one model forecasts all 28 days with no peeking; Tweedie loss (standard for M5's zero-heavy counts). Price features use past prices only (`price_ratio_28` = price ÷ average of the previous 28 days), so no look-ahead. **Status:** `lgbm` (sales only) done for all 7 windows and in Drive (~20 min per window on free Colab); `lgbm_cov` (with prices/holidays) handed to Prateek to finish locally. Claude reviewed the notebook read-only: file names, columns and windows match the shared format, so 05 scores it with no changes.
 **06 (Claude):** new `ens_lgbm` = Chronos-2 + TimesFM-3 + LightGBM, weights chosen on earlier windows, plus `ens_lgbm_calbias`. Uses the sales-only `lgbm`, matching the zero-shot foundation models (sales history only). Tested on fake data (pandas 2.2 and 3). Labels added in 05.
