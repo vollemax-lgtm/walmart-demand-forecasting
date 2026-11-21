@@ -6,6 +6,11 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-21 · Max (with Claude) · Final 06 run
+**06 re-run with the Chronos-2 `calbias` fix (final version).** The fix worked: Chronos-2's per-group scales are now 1.05–1.68 (were capped at 3.0 for slow sellers), and `chronos2_zs_calbias` improved from MAE 1.122 to 1.089 with totals at 0.97 of actual. TimesFM-3 unchanged (scales 1.04–1.21; `calbias` MAE 1.086, totals 0.97).
+Ensemble weights unchanged: Chronos-2 0.4 / TimesFM-3 0.6; DeepAR 0.0; LightGBM 0.0. 30 files saved (10 models × val_1, val_2, test). Figure `22_calibration_before_after.png` updated.
+**Next:** 05 (running), then 04d/04c if they finish today, then 05 once more.
+
 ## 2026-11-20 · Claude · 05 made memory-light
 **Why:** 05 crashed on Colab after using all its RAM: it loaded every window (including backtests) of ~25 models as text product IDs, plus all 5 years of sales.
 **Fix:** 05 now reads only the scored windows (skips backtest files), stores product IDs as integer codes, uses 32-bit numbers, and loads only the sales dates it needs (28 days before val_1 through the test window). Same scores and logic; tested on fake data (pandas 2.2 and 3).
