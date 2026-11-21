@@ -6,6 +6,15 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-21 · Max (with Claude) · 04d few-shot notebook saved
+Full run (all 12,196 series, val_1/val_2/test) done earlier on a T4; this re-run skipped the saved windows and printed the comparison. Few-shot (Chronos-2 forecasting 100 related products together) vs zero-shot, MAE change:
+| Window | All | Fast | Medium | Slow | New products (<1 yr history) |
+|---|---|---|---|---|---|
+| val_1 | +0.7% | +0.6% | +1.2% | +0.3% | −0.1% (411 products) |
+| val_2 | +0.9% | +0.8% | +1.4% | +0.3% | +1.5% (379) |
+| test | +0.9% | +1.0% | +1.2% | +0.3% | +1.7% (339) |
+Few-shot is slightly worse everywhere, including the new products where borrowing from related items was expected to help most. Likely reason: neighbouring products in our groups (same item in other stores, nearby items) already behave much like each one's own history, so the extra context adds noise rather than information; and few-shot narrowed the forecast ranges (80% range caught only 58% of sales in 05). Honest negative result for the blog.
+
 ## 2026-11-21 · Max (with Claude) · Final 05: official results (20 models)
 05 ran without memory problems (20.5M scored rows). Fairness rule dropped 0.1% of rows; every model scored on the same 12,190 test products. `chronos2_fs` (few-shot, 04d) is already in Drive and was scored; 04c (fine-tuned) not yet.
 **Accuracy, test window (MAE, units per product per day):**

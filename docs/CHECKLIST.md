@@ -16,7 +16,7 @@ Last updated: **Sat Nov 21, 2026**. Tick items as they finish. Details for each 
 | ✅ Done | LightGBM sales-only (`lgbm`) and with prices/holidays (`lgbm_cov`), 7 windows each | Elena; Prateek ran `lgbm_cov` | Nov 19 |
 | ✅ Done | 06 ready with every ensemble (+ DeepAR, + LightGBM), fair safety-stock comparison, leak fix, range score | Claude | Nov 18–19 |
 | ✅ Done | **Final run: 06, then 05** (20 models scored). Headline: TimesFM-3 13% more accurate than baseline; with the totals correction it needs $27k (8.5%) less safety stock at the same service level | Max | Nov 21 |
-| ✅ Done | Few-shot Chronos-2 (`04d`) scored: slightly worse than zero-shot (1.036 vs 1.026). Notebook still to save to Project Code | Max | Nov 21 |
+| ✅ Done | Few-shot Chronos-2 (`04d`) scored: slightly worse than zero-shot (1.036 vs 1.026). Notebook saved (worse for every group, incl. new products) | Max | Nov 21 |
 | ◐ Optional | Fine-tuned Chronos-2 (`04c`); if done today, re-run 05 only | Max | stop Sat Nov 21 |
 | ⏳ Sat | Final results table in plain language, safety-stock $, confidence ranges, charts; docs updated | Claude | Sat Nov 21 |
 | ⏳ Sun | **Results freeze**; everyone's blog section drafted | everyone | Sun Nov 22 |
@@ -119,7 +119,7 @@ Last updated: **Sat Nov 21, 2026**. Tick items as they finish. Details for each 
 | [x] | 04a Chronos-2: full California run | Max | Nov 3 |
 | [x] | 04b TimesFM-3: smoke test | Max | Nov 3 |
 | [x] | 04b TimesFM-3: full California run (Prateek's local RTX 4070, 58 min) | Prateek runs for Max | Nov 10; files in Drive Nov 14 |
-| [ ] | 04d Chronos-2 few-shot (in-context, 100 related products per batch), val_1/val_2/test. **Timeboxed to Sat Nov 21** | Max (Claude wrote, Nov 19) | ready to run |
+| [x] | 04d Chronos-2 few-shot (in-context, 100 related products per batch), val_1/val_2/test. **Timeboxed to Sat Nov 21** | Max (Claude wrote, Nov 19) | ready to run |
 | [ ] | 04c Chronos-2 fine-tuned (LoRA), val_1/val_2/test: smoke test, then full run. **Timeboxed: drop to future work if not done by Sat Nov 21** | Max (Claude wrote, Nov 18) | ready to run |
 
 ## Evaluation and post-processing
