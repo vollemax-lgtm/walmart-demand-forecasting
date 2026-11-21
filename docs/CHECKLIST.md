@@ -1,6 +1,6 @@
 # Master Checklist
 
-Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
+Last updated: **Sat Nov 21, 2026**. Tick items as they finish. Details for each finished item are in `docs/PROJECT_LOG.md`.
 
 ## Status at a glance (Fri Nov 20)
 
@@ -15,8 +15,9 @@ Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each 
 | ✅ Done | DeepAR full run, 7 windows | James | Nov 13 |
 | ✅ Done | LightGBM sales-only (`lgbm`) and with prices/holidays (`lgbm_cov`), 7 windows each | Elena; Prateek ran `lgbm_cov` | Nov 19 |
 | ✅ Done | 06 ready with every ensemble (+ DeepAR, + LightGBM), fair safety-stock comparison, leak fix, range score | Claude | Nov 18–19 |
-| ▶ Next | **Final run: 06, then 05** (CPU, fresh from GitHub), then download both to Project Code. First 06 pass done Nov 20; re-run after Claude's Chronos-2 `calbias` fix | Max | Fri Nov 20 |
-| ◐ Optional | Few-shot Chronos-2 (`04d`) and fine-tuned Chronos-2 (`04c`); not in Project Code yet | Max | stop Sat Nov 21 |
+| ✅ Done | **Final run: 06, then 05** (20 models scored). Headline: TimesFM-3 13% more accurate than baseline; with the totals correction it needs $27k (8.5%) less safety stock at the same service level | Max | Nov 21 |
+| ✅ Done | Few-shot Chronos-2 (`04d`) scored: slightly worse than zero-shot (1.036 vs 1.026). Notebook still to save to Project Code | Max | Nov 21 |
+| ◐ Optional | Fine-tuned Chronos-2 (`04c`); if done today, re-run 05 only | Max | stop Sat Nov 21 |
 | ⏳ Sat | Final results table in plain language, safety-stock $, confidence ranges, charts; docs updated | Claude | Sat Nov 21 |
 | ⏳ Sun | **Results freeze**; everyone's blog section drafted | everyone | Sun Nov 22 |
 | ⏳ Mon–Tue | Slides (2–3 each) + timed rehearsal (15 min + 3 min Q&A) | everyone | Nov 23–24 |
@@ -25,7 +26,7 @@ Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each 
 **Open decisions:**
 1. **Who writes the results and business-impact section?** (suggestion: James or Prateek)
 2. **Hybrid model:** still wanted, and who builds it? Without it, LightGBM's role is its own score plus the ensemble.
-3. **Slow sellers → LightGBM?** Prateek's finding suggests routing slow sellers to LightGBM. Note: the Nov 20 run gave LightGBM 0% weight because weights are picked on daily accuracy, where it loses; routing would have to be judged on totals or safety stock instead. Decide after seeing 05's safety-stock numbers.
+3. ~~Slow sellers → LightGBM?~~ **Settled: no.** LightGBM's better totals don't beat corrected TimesFM-3 on safety stock ($317k vs $292k).
 4. Rehearsal time.
 
 ## How the notebooks connect
@@ -59,14 +60,14 @@ Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each 
 6a. [x] Claude adds the **3-model ensemble (Chronos-2 + TimesFM-3 + DeepAR)** to 06 and makes it read DeepAR's file names (Nov 15)
 6b. [x] Run `06_post_processing`, then re-run `05_evaluation` on the real forecasts (Max, Nov 18): 15 models scored
 6d. [x] Safety-stock method fixed in 05 (bias-adjusted, all models held to 95% coverage) and slow-seller fix for `calbias` in 06 (Claude, Nov 18)
-6e. [ ] Few-shot Chronos-2 (`04d`, in-context, no training): smoke test, full run (Max; timeboxed to Sat Nov 21)
+6e. [x] Few-shot Chronos-2 (scored Nov 21: MAE 1.036, slightly worse than zero-shot) (`04d`, in-context, no training): smoke test, full run (Max; timeboxed to Sat Nov 21)
 6f. [x] Leak fix: 06 uses zero-shot runs (price_ratio look-ahead in covariate runs); quantile-loss score added to 05 (Claude, Nov 19)
 6g. [x] Price ratios from past prices only in LightGBM (`price_ratio_28`, Elena, Nov 19)
 6c. [ ] Fine-tune Chronos-2 (`04c`): smoke test, full run, then 05 scores it (Max; timeboxed to Sat Nov 21)
 7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (owner to confirm)
 8. [ ] Hybrid model: LightGBM learns the foundation models' errors (**open: still wanted? who builds it?**)
 9. [x] Add LightGBM to the ensemble (`ens_lgbm`, Claude, Nov 19); runs in Max's final 06
-10. [ ] **Final run: 06, then 05, with every model** → final results table + safety-stock $ (Max, Fri Nov 20)
+10. [x] Final run: 06, then 05, with every model → final results table + safety-stock $ (Max, Nov 21)
 
 ### Phase 3 · Freeze and write (by Sun Nov 22)
 11. [ ] Results freeze: no more model changes
@@ -130,7 +131,7 @@ Last updated: **Fri Nov 20, 2026**. Tick items as they finish. Details for each 
 - [x] Run 06, then re-run 05 on real data (Max, Nov 18: 15 models)
 - [x] Fair safety-stock method, slow-seller fix, leak fix, quantile loss | Claude, Nov 18–19
 - [x] LightGBM ensemble in 06 (`ens_lgbm`, `ens_lgbm_calbias`) | Claude, Nov 19
-- [ ] **Final run: 06, then 05, with every model** | Max, Fri Nov 20
+- [x] Final run: 06, then 05, with every model | Max, Nov 21
 - [ ] Interpret calibration + ensemble results | owner to confirm
 - [ ] Hybrid model (LightGBM learns the foundation models' errors) | open: still wanted? who builds it?
 - [ ] Optional: route slow sellers to LightGBM in the mix (Prateek's finding) | team decides; Claude ~1 hour

@@ -6,6 +6,41 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-21 · Max (with Claude) · Final 05: official results (20 models)
+05 ran without memory problems (20.5M scored rows). Fairness rule dropped 0.1% of rows; every model scored on the same 12,190 test products. `chronos2_fs` (few-shot, 04d) is already in Drive and was scored; 04c (fine-tuned) not yet.
+**Accuracy, test window (MAE, units per product per day):**
+| Model | MAE | vs 4-wk avg | Bias |
+|---|---|---|---|
+| TimesFM-3 zero-shot (headline) | 1.016 | 13% better | −0.41 |
+| Ensemble Chronos-2 + TimesFM-3 (0.4/0.6) | 1.017 | 13% | −0.43 |
+| Chronos-2 zero-shot | 1.026 | 12% | −0.47 |
+| Chronos-2 few-shot | 1.036 | 12% | −0.54 |
+| DeepAR | 1.084 | 8% | −0.59 |
+| TimesFM-3 + calbias | 1.086 | 7% | −0.05 |
+| LightGBM + covariates | 1.104 | 6% | −0.10 |
+| LightGBM | 1.114 | 5% | −0.12 |
+| Naive, 4-week average | 1.172 | (baseline) | −0.05 |
+| Naive, last week | 1.335 | 14% worse | −0.07 |
+`calmae` and covariates each move MAE by ≤0.002 (noise; covariate runs also carry the price_ratio look-ahead). TimesFM-3 family best in every category and sales-speed group; slow sellers essentially tied across models (0.33).
+**Safety stock (fair method: every model's buffer sized to cover 95% of validation weeks; dollars at test prices):**
+| Model | Safety stock $ | vs 4-wk avg | Test weeks covered |
+|---|---|---|---|
+| TimesFM-3 + calbias | $292,338 | **$27,305 less** | 86.5% |
+| Chronos-2 + calbias | $298,567 | $21,075 less | 86.7% |
+| LightGBM + covariates | $316,585 | $3,058 less | 86.7% |
+| Naive, 4-week average | $319,643 | (baseline) | 86.2% |
+| Ensembles + calbias | $328,2xx | $8,600 more | 86.0% |
+| TimesFM-3 zero-shot (uncorrected) | $411,154 | **$91,511 more** | 86.5% |
+| Chronos-2 zero-shot (uncorrected) | $437,175 | $117,532 more | 86.6% |
+| DeepAR | $464,915 | $145,272 more | 85.3% |
+- **The business result:** the most accurate model, used as-is, would need ~$92k MORE safety stock than the simple baseline, because it runs low and the buffer has to make up the gap. With the totals correction it needs ~$27k LESS (8.5%) at the same service level. Best accuracy ≠ cheapest inventory; the correction is what turns accuracy into savings.
+- Ensembles + calbias cost more than single models + calbias because DeepAR/LightGBM mixes fall back to scaling the median (no percentiles).
+- **Limitation:** every model's buffer, sized for 95% on validation, covers ~86% of test weeks (the test window is harder for all of them), so the comparison is fair but the absolute coverage falls short.
+- LightGBM's better totals do not translate into cheaper stock than corrected TimesFM-3 ($317k vs $292k), so routing slow sellers to LightGBM isn't worth adding.
+**Range accuracy (quantile loss, lower is better; 80%-range hit rate, target 80%):** TimesFM-3 0.401 / 83%; Chronos-2 0.404 / 78%; Chronos-2 few-shot 0.408 / 58% (ranges too narrow).
+**Few-shot (04d):** slightly worse than zero-shot on every measure (MAE 1.036 vs 1.026). Honest negative result: borrowing from 100 related products didn't help here.
+Figures 20 and 21 updated.
+
 ## 2026-11-21 · Max (with Claude) · Final 06 run
 **06 re-run with the Chronos-2 `calbias` fix (final version).** The fix worked: Chronos-2's per-group scales are now 1.05–1.68 (were capped at 3.0 for slow sellers), and `chronos2_zs_calbias` improved from MAE 1.122 to 1.089 with totals at 0.97 of actual. TimesFM-3 unchanged (scales 1.04–1.21; `calbias` MAE 1.086, totals 0.97).
 Ensemble weights unchanged: Chronos-2 0.4 / TimesFM-3 0.6; DeepAR 0.0; LightGBM 0.0. 30 files saved (10 models × val_1, val_2, test). Figure `22_calibration_before_after.png` updated.
