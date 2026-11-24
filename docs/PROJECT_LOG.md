@@ -6,6 +6,13 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-24 (later) · Max (with Claude) · 05 re-run with the fine-tuned model (21 models)
+Every existing number is unchanged (checked line by line against the Nov 21 run); the only addition is `chronos2_ft`:
+- Test MAE **1.021** (13% better than the 4-week average; zero-shot Chronos-2 1.026), sales-weighted MAE 2.127 (zero-shot 2.157), bias −0.505 (zero-shot −0.468).
+- **Best-calibrated forecast range of any model:** its 10th–90th percentile range caught 79.8% of actual sales (target 80%; zero-shot Chronos-2 77.5%, TimesFM-3 83.0%). Quantile loss 0.4013, essentially tied with TimesFM-3 (0.4007).
+- Safety stock as-is $441,633 (fair method), slightly more than zero-shot Chronos-2 ($437,175), because it runs lower. A `calbias` version wasn't made (it would need a 06 re-run); not needed for the conclusions.
+Figures 20 and 21 updated.
+
 ## 2026-11-24 · Max (with Claude) · 04c fine-tuned Chronos-2: full run
 Ran on a Colab T4 after the free-tier GPU limit reset: LoRA fine-tuning, 1,000 steps per window, all 12,196 series, about 26 minutes per window (24 min training + 2 min forecasting). Post-freeze add-on: it adds the `chronos2_ft` row to 05 and changes no other number.
 | Window | MAE zero-shot | MAE fine-tuned | Change | Total ÷ actual, zero-shot | Total ÷ actual, fine-tuned |
