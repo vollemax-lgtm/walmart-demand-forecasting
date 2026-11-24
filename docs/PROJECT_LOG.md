@@ -6,6 +6,18 @@ Format: date · who · what was done · decisions · outputs · next step.
 
 ---
 
+## 2026-11-24 · Max (with Claude) · 04c fine-tuned Chronos-2: full run
+Ran on a Colab T4 after the free-tier GPU limit reset: LoRA fine-tuning, 1,000 steps per window, all 12,196 series, about 26 minutes per window (24 min training + 2 min forecasting). Post-freeze add-on: it adds the `chronos2_ft` row to 05 and changes no other number.
+| Window | MAE zero-shot | MAE fine-tuned | Change | Total ÷ actual, zero-shot | Total ÷ actual, fine-tuned |
+|---|---|---|---|---|---|
+| val_1 | 0.986 | 0.980 | −0.6% | 0.708 | 0.685 |
+| val_2 | 0.995 | 0.990 | −0.4% | 0.719 | 0.695 |
+| test | 1.026 | 1.021 | −0.5% | 0.693 | 0.669 |
+- Fine-tuning helps Chronos-2 a little but consistently (0.4–0.6% lower error in all three windows), about the 1% AutoGluon reports. It still trails TimesFM-3 zero-shot (1.016).
+- It makes the under-forecasting slightly worse (totals 67% of actual on test vs 69%): training on daily accuracy pulls the median further toward zero for intermittent products. Same lesson as before: accuracy and correct totals pull against each other.
+- Ladder for the slides (Chronos-2, test MAE): few-shot 1.036 → zero-shot 1.026 → fine-tuned 1.021.
+Figure `12_chronos2_finetuned_examples.png` added. Official scores come from the 05 re-run.
+
 ## 2026-11-21 · Max (with Claude) · 04d few-shot notebook saved
 Full run (all 12,196 series, val_1/val_2/test) done earlier on a T4; this re-run skipped the saved windows and printed the comparison. Few-shot (Chronos-2 forecasting 100 related products together) vs zero-shot, MAE change:
 | Window | All | Fast | Medium | Slow | New products (<1 yr history) |

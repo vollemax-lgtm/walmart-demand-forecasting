@@ -17,7 +17,7 @@ Last updated: **Sat Nov 21, 2026**. Tick items as they finish. Details for each 
 | ✅ Done | 06 ready with every ensemble (+ DeepAR, + LightGBM), fair safety-stock comparison, leak fix, range score | Claude | Nov 18–19 |
 | ✅ Done | **Final run: 06, then 05** (20 models scored). Headline: TimesFM-3 13% more accurate than baseline; with the totals correction it needs $27k (8.5%) less safety stock at the same service level | Max | Nov 21 |
 | ✅ Done | Few-shot Chronos-2 (`04d`) scored: slightly worse than zero-shot (1.036 vs 1.026). Notebook saved (worse for every group, incl. new products) | Max | Nov 21 |
-| ◐ Optional | Fine-tuned Chronos-2 (`04c`); if done today, re-run 05 only | Max | stop Sat Nov 21 |
+| ✅ Done | Fine-tuned Chronos-2 (`04c`): 0.5% lower error than zero-shot, still behind TimesFM-3; 05 re-run for the official row | Max | Nov 24 |
 | ⏳ Sat | Final results table in plain language, safety-stock $, confidence ranges, charts; docs updated | Claude | Sat Nov 21 |
 | ⏳ Sun | **Results freeze**; everyone's blog section drafted | everyone | Sun Nov 22 |
 | ⏳ Mon–Tue | Slides (2–3 each) + timed rehearsal (15 min + 3 min Q&A) | everyone | Nov 23–24 |
@@ -63,7 +63,7 @@ Last updated: **Sat Nov 21, 2026**. Tick items as they finish. Details for each 
 6e. [x] Few-shot Chronos-2 (scored Nov 21: MAE 1.036, slightly worse than zero-shot) (`04d`, in-context, no training): smoke test, full run (Max; timeboxed to Sat Nov 21)
 6f. [x] Leak fix: 06 uses zero-shot runs (price_ratio look-ahead in covariate runs); quantile-loss score added to 05 (Claude, Nov 19)
 6g. [x] Price ratios from past prices only in LightGBM (`price_ratio_28`, Elena, Nov 19)
-6c. [ ] Fine-tune Chronos-2 (`04c`): smoke test, full run, then 05 scores it (Max; timeboxed to Sat Nov 21)
+6c. [x] Fine-tune Chronos-2 (Nov 24: test MAE 1.021 vs 1.026 zero-shot) (`04c`): smoke test, full run, then 05 scores it (Max; timeboxed to Sat Nov 21)
 7. [ ] Interpret calibration results for the blog: which groups moved off the median, effect on totals and safety stock (owner to confirm)
 8. [ ] Hybrid model: LightGBM learns the foundation models' errors (**open: still wanted? who builds it?**)
 9. [x] Add LightGBM to the ensemble (`ens_lgbm`, Claude, Nov 19); runs in Max's final 06
@@ -120,7 +120,7 @@ Last updated: **Sat Nov 21, 2026**. Tick items as they finish. Details for each 
 | [x] | 04b TimesFM-3: smoke test | Max | Nov 3 |
 | [x] | 04b TimesFM-3: full California run (Prateek's local RTX 4070, 58 min) | Prateek runs for Max | Nov 10; files in Drive Nov 14 |
 | [x] | 04d Chronos-2 few-shot (in-context, 100 related products per batch), val_1/val_2/test. **Timeboxed to Sat Nov 21** | Max (Claude wrote, Nov 19) | ready to run |
-| [ ] | 04c Chronos-2 fine-tuned (LoRA), val_1/val_2/test: smoke test, then full run. **Timeboxed: drop to future work if not done by Sat Nov 21** | Max (Claude wrote, Nov 18) | ready to run |
+| [x] | 04c Chronos-2 fine-tuned (LoRA), val_1/val_2/test: smoke test, then full run. **Timeboxed: drop to future work if not done by Sat Nov 21** | Max (Claude wrote, Nov 18) | ready to run |
 
 ## Evaluation and post-processing
 - [x] 05 scoring notebook written (MAE, sales-weighted MAE, bias, by category/speed, safety-stock $ + coverage check), Nov 10
